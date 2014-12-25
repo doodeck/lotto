@@ -1,0 +1,14 @@
+{
+  "name": "cacherandom",
+  "version": "0.0.1",
+  "description": "Lambda function to pre-cache random bits",
+  "main": "cacherandom.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": " <doodeck@users.noreply.github.com>",
+  "license": "MIT",
+  "dependencies": {
+    "request": "^2.51.0"
+  }
+}
