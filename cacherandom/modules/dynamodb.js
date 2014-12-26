@@ -113,3 +113,41 @@ exports.removeItem = function(Id, callback) {
       callback(e, { status: 'deleteItem exception' });
   }
 }
+
+exports.removeItems = function(IdArray, callback) {
+  try {
+    var params = {
+      RequestItems: {
+        LambdaRandom: [ // config.dynamodb.tableName: 
+          {
+          DeleteRequest: {
+            Key: {
+                Type: {
+                    S: config.dynamodb.types.item
+                },
+                Id: {
+                  N: IdArray[0].toString()
+                }
+            }
+          }
+          }
+        ]
+      }
+    };
+    console.log('batchWriteItem: ', params);
+
+    dynamodb.batchWriteItem(params, function(err, data) {
+      if (err) {
+          console.log(err, err.stack); // an error occurred
+          callback(err, { status: 'batchWriteItem failed' });
+      } else {
+          console.log('batchWriteItem ok: ', data);           // successful response
+          callback(undefined, data);
+      }
+    });
+
+  } catch(e) {
+      console.log('batchWriteItem exception: ', e);
+      callback(e, { status: 'batchWriteItem exception' });
+  }
+}
