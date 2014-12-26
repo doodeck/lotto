@@ -53,28 +53,43 @@ angular.module('myApp.view1', ['ngRoute'])
     console.log('moreNeeded: ', tickets.moreNeeded());
     console.log('Tickets before: ', tickets);
 
-    var recursiveFeed = function() {
+    var recursiveDbRefresh = function(arrayIds) {
+      
+    }
+
+    var recursiveFeed = function(recursionParams) {
       AWSService.dynamoLambdaRandom().then(function(table) {
         var params = {
           TableName: 'LambdaRandom',  // TODO: Table name elsewhere
-          Limit: 1
+          Limit: recursionParams.scanLimit
         };
+        if (!!recursionParams.LastEvaluatedKey)
+          params.ExclusiveStartKey = recursionParams.LastEvaluatedKey;
+
         console.log('scan using params: ', params);
         table.scan(params, function(err, data) {
           if (err)
             console.log(err, err.stack); // an error occurred
           else {
             console.log(data);           // successful response
+            recursionParams.LastEvaluatedKey = data.LastEvaluatedKey;
             for (var r = 0; r < data.Count; r++) { // loop over db records
               var arrayIds = [];
               for (var a = 0; a < data.Items[r].Count.N; a++) {
                 arrayIds.push(data.Items[r].Array.L[a].N);
               }
               tickets.feedRandom(arrayIds);
+              recursionParams.dbRecordsConsumedIds.push(data.Items[r].Id.N);
             }
 
             console.log('howManyNeeded afterwards: ', tickets.howManyNeeded());
             console.log('Tickets afterwards: ', tickets);
+            if (tickets.moreNeeded()) {
+              // TODO: ideally recursionParams.scanLimit should be set here
+              recursiveFeed(recursionParams);
+            } else {
+              console.log('recursionParams afterwards: ', JSON.stringify(recursionParams));
+            }
           }
         });
       });
@@ -85,6 +100,6 @@ angular.module('myApp.view1', ['ngRoute'])
       scanLimit: 1
     };
     
-    recursiveFeed();
+    recursiveFeed(recursionParams);
 	}
 }]);
