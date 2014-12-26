@@ -1,5 +1,7 @@
 // config.js
 
+'use strict';
+
 var CONFIG = {
   region: 'eu-west-1',
   dynamodb: {

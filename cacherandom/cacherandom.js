@@ -1,5 +1,7 @@
 // cacherandom.js
 
+'use strict';
+
 var dbase = require('modules/dynamodb');
 var getbits = require('modules/getbits');
 

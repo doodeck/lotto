@@ -1,5 +1,7 @@
 // dynamodb.js
 
+'use strict';
+
 var config = require('../config');
 
 var AWS = require('aws-sdk');
@@ -47,7 +49,7 @@ var incrementId = function(callback) {
 
 exports.appendItem = function(array, callback) {
   var dynamoArray = [];
-  for (item in array) {
+  for (var item in array) {
     dynamoArray.push({ N: array[item].toString() });
   }
   incrementId(function(err, data) {
@@ -143,6 +145,8 @@ exports.removeItems = function(IdArray, callback) {
     console.log('batchWriteItem: ', JSON.stringify(params));
 
     dynamodb.batchWriteItem(params, function(err, data) {
+      /* TODO: tak care of "UnprocessedItems":{}
+      http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ErrorHandling.html#BatchOperations */
       if (err) {
           console.log(err, err.stack); // an error occurred
           callback(err, { status: 'batchWriteItem failed' });
