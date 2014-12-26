@@ -5,15 +5,26 @@ var getbits = require('modules/getbits');
 
 console.log('Loading event');
 
+/* Lambda entry point accepting following parameters:
+{
+  "rmId": "id1",
+  // no yet "rmIds": [ "id1", "id2", "id3" ]
+}
+*/
 exports.handler = function(event, context) {
-  console.log("value1 = " + event.key1);
-  console.log("value2 = " + event.key2);
-  console.log("value3 = " + event.key3);
+  console.log("event = " + JSON.stringify(event));
   getbits.getFreshBits(function(err, data) {
   	console.log('getFreshBits returned: ', err, data);
     dbase.appendItem(data.array, function(err, data) {
       console.log('db.appendItem returned: ', data);
-      context.done(null, "Lotto Lambda Exitting");  // SUCCESS with message
+      if (!!event.rmId || !!event.rmIds) {
+        dbase.removeItem(event.rmId, function(err, data) {
+          console.log('removeItem returned: ', err, data);
+          context.done(null, "Lotto Lambda Exitting, attempted delete");
+        });
+      } else {
+        context.done(null, "Lotto Lambda Exitting without deleting");  // SUCCESS with message        
+      }
     });
   });
 }

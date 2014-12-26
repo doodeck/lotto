@@ -36,7 +36,7 @@ var incrementId = function(callback) {
               callback(err, { status: 'updateItem failed' });
           } else {
               console.log('Update ok: ', data);           // successful response
-              callback(err, data);
+              callback(undefined, data);
           }
       });
   } catch(e) {
@@ -83,4 +83,33 @@ exports.appendItem = function(array, callback) {
       callback(err, { status: 'incrementId failed' });
     }
   });
+}
+
+exports.removeItem = function(Id, callback) {
+  try {
+      var item = {
+          Key: {
+              Type: {
+                  S: config.dynamodb.types.item
+              },
+              Id: {
+                N: Id.toString()
+              }
+          },
+          TableName: config.dynamodb.tableName
+      };
+      console.log('delete item: ', item);
+      dynamodb.deleteItem(item, function(err, data) {
+          if (err) {
+              console.log(err, err.stack); // an error occurred
+              callback(err, { status: 'deleteItem failed' });
+          } else {
+              console.log('Delete ok: ', data);           // successful response
+              callback(undefined, data);
+          }
+      });
+  } catch(e) {
+      console.log('deleteItem exception: ', e);
+      callback(e, { status: 'deleteItem exception' });
+  }
 }
