@@ -55,6 +55,33 @@ folders in your project.
 angular-seed changes this location through the `.bowerrc` file.  Putting it in the app folder makes
 it easier to serve the files by a webserver.*
 
+### Create AWS Cognito identity pool
+Open AWS Console, select Cognito module.
+
+Click "New Identity Pool". Enter the Identity Pool Name of your choice, e.g. "LambdaRandom". Check the box "Enable Access to Unauthenticated Identities". Click "Create Pool". On the next page leave all the defaults, click "Update Roles".
+On the next page you'll see the sampel code for Android, iOS and .NET. Copy/Paste the unique id's into app.js/config/cognito/AccountId:|IdentityPoolId:|RoleArn. Do not copy the authenticated role name (e.g. "Cognito_LambdaRandomAuth_DefaultRole"), this is not used.
+
+In AWS xonsole open IAM module. Edit the roles. Edit the unathenticated role (e.g. "Cognito_LambdaRandomUnauth_DefaultRole") you have just created. In the Permissions section click "Attach Role Policy". Depending on your experience and personal preferences go through either "Policy Generator" or "Custom Policy". Create a policy with selected read-only access to the DynamoDB databae, e.g.
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "Stmt1419606489000",
+      "Effect": "Allow",
+      "Action": [
+        "dynamodb:DescribeTable",
+        "dynamodb:Scan"
+      ],
+      "Resource": [
+        "arn:aws:dynamodb:eu-west-1:915133436062:table/LambdaRandom"
+      ]
+    }
+  ]
+}
+```
+
 ### Run the Application
 
 We have preconfigured the project with a simple development web server.  The simplest way to start
@@ -65,7 +92,6 @@ npm start
 ```
 
 Now browse to the app at `http://localhost:8000/app/index.html`.
-
 
 
 ## Testing
