@@ -33,12 +33,14 @@ exports.getFreshBits = function(callback) {
       function (error, response, body) {
         if (!error && response.statusCode == 200) {
           console.log(body);
-          var byteArray = new Uint8Array(body);
+          var byteArray = new Uint8Array(body),
+              array = [];
           for (var i = 0; i < byteArray.byteLength; i++) {
             // do something with each byte in the array
-            console.log('byte[', i, ']: ', byteArray[i]);
+            // console.log('byte[', i, ']: ', byteArray[i]);
+            array.push(byteArray[i]);
           }
-          callback(undefined, { status: 'OK' });
+          callback(undefined, { status: 'OK', array: array });
         } else {
           callback(error, response);
         }
