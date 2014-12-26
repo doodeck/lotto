@@ -7,7 +7,8 @@ angular.module('myApp', [
   'myApp.view1',
   'myApp.view2',
   'myApp.version',
-  'myApp.credentials'
+  'myApp.credentials',
+  'myApp.ticketing'
 ])
 .config(function(AWSServiceProvider) { // is providing the .provider('AWSService', ...
   AWSServiceProvider

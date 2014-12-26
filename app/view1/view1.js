@@ -33,6 +33,7 @@ angular.module('myApp.view1', ['ngRoute'])
 	$scope.pickTickets = function() {
 		console.log('picking tickets: ', $scope.currentCount);
 
+		/* CORS of course
 		$http.get("https://www.fourmilab.ch/cgi-bin/Hotbits?nbytes=16&fmt=xml&npass=1&lpass=8&pwtype=3").
 			success(function(data, status, headers, config) {
 				console.log('$http.success: ', data, status, headers, config);
@@ -44,5 +45,46 @@ angular.module('myApp.view1', ['ngRoute'])
 				// called asynchronously if an error occurs
 				// or server returns response with an error status.
 			});
+		*/
+
+		var tickets = new Tickets($scope.currentCount /*numTickets*/, 6 /*numNumbers*/, 49 /*highestNumber, numExtras, highestExtra*/);
+
+		console.log('howManyNeeded: ', tickets.howManyNeeded());
+    console.log('moreNeeded: ', tickets.moreNeeded());
+    console.log('Tickets before: ', tickets);
+
+    var recursiveFeed = function() {
+      AWSService.dynamoLambdaRandom().then(function(table) {
+        var params = {
+          TableName: 'LambdaRandom',  // TODO: Table name elsewhere
+          Limit: 1
+        };
+        console.log('scan using params: ', params);
+        table.scan(params, function(err, data) {
+          if (err)
+            console.log(err, err.stack); // an error occurred
+          else {
+            console.log(data);           // successful response
+            for (var r = 0; r < data.Count; r++) { // loop over db records
+              var arrayIds = [];
+              for (var a = 0; a < data.Items[r].Count.N; a++) {
+                arrayIds.push(data.Items[r].Array.L[a].N);
+              }
+              tickets.feedRandom(arrayIds);
+            }
+
+            console.log('howManyNeeded afterwards: ', tickets.howManyNeeded());
+            console.log('Tickets afterwards: ', tickets);
+          }
+        });
+      });
+    }
+
+    var recursionParams = {
+      dbRecordsConsumedIds: [],
+      scanLimit: 1
+    };
+    
+    recursiveFeed();
 	}
 }]);
