@@ -119,29 +119,32 @@ exports.removeItems = function(IdArray, callback) {
     var params = {
       RequestItems: {
         LambdaRandom: [ // config.dynamodb.tableName: 
-          {
-          DeleteRequest: {
-            Key: {
-                Type: {
-                    S: config.dynamodb.types.item
-                },
-                Id: {
-                  N: IdArray[0].toString()
-                }
-            }
-          }
-          }
         ]
       }
     };
-    console.log('batchWriteItem: ', params);
+
+    for (var id in IdArray) {
+      params.RequestItems.LambdaRandom.push({
+        DeleteRequest: {
+          Key: {
+              Type: {
+                  S: config.dynamodb.types.item
+              },
+              Id: {
+                N: IdArray[id].toString()
+              }
+          }
+        }
+      });
+    }
+    console.log('batchWriteItem: ', JSON.stringify(params));
 
     dynamodb.batchWriteItem(params, function(err, data) {
       if (err) {
           console.log(err, err.stack); // an error occurred
           callback(err, { status: 'batchWriteItem failed' });
       } else {
-          console.log('batchWriteItem ok: ', data);           // successful response
+          console.log('batchWriteItem ok: ', JSON.stringify(data));           // successful response
           callback(undefined, data);
       }
     });

@@ -8,7 +8,7 @@ console.log('Loading event');
 /* Lambda entry point accepting following parameters:
 {
   "rmId": "id1",
-  // not yet "rmIds": [ "id1", "id2", "id3" ]
+  "rmIds": [ "id1", "id2", "id3" ]
 }
 */
 exports.handler = function(event, context) {
@@ -19,7 +19,7 @@ exports.handler = function(event, context) {
     dbase.appendItem(data.array, function(err, data) {
       console.log('db.appendItem returned: ', data);
       if (!!event.rmIds)
-        removeArray.push(event.rmIds);
+        removeArray = event.rmIds;
       if (!!event.rmId)
         removeArray.push(event.rmId);
       if (removeArray.length > 0) {
