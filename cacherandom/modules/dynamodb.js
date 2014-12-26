@@ -118,10 +118,13 @@ exports.removeItems = function(IdArray, callback) {
   try {
     var params = {
       RequestItems: {
+        /*
         LambdaRandom: [ // config.dynamodb.tableName: 
         ]
+        */
       }
     };
+    params.RequestItems[config.dynamodb.tableName] = [];
 
     for (var id in IdArray) {
       params.RequestItems.LambdaRandom.push({
