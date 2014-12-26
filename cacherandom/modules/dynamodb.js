@@ -33,7 +33,7 @@ var incrementId = function(callback) {
       dynamodb.updateItem(item, function(err, data) {
           if (err) {
               console.log(err, err.stack); // an error occurred
-              callback(err, {});
+              callback(err, { status: 'updateItem failed' });
           } else {
               console.log('Update ok: ', data);           // successful response
               callback(err, data);
@@ -41,11 +41,46 @@ var incrementId = function(callback) {
       });
   } catch(e) {
       console.log('updateItem exception: ', e);
-      callback(e, {});
+      callback(e, { status: 'updateItem exception' });
   }
 }
 
 exports.appendItem = function(array, callback) {
-  incrementId(callback);
-  // callback(undefined, {data: 'OK'});
+  var dynamoArray = [];
+  for (item in array) {
+    dynamoArray.push({ N: array[item].toString() });
+  }
+  incrementId(function(err, data) {
+    if (!err && !!data) {
+      try {
+          var item = {
+              Item: {
+                  Type: {
+                      S: config.dynamodb.types.item
+                  },
+                  Id: {
+                    N: data.Attributes.Val.N
+                  },
+                  Count: {
+                    N: array.length.toString()
+                  },
+                  Array: {
+                    L: dynamoArray
+                  }
+              },
+              TableName: config.dynamodb.tableName
+          };
+          console.log('putItem item: ', item);
+          dynamodb.putItem(item, function(err, data) {
+            if (err) console.log(err, err.stack); // an error occurred
+            callback(err, data);
+          });
+      } catch(e) {
+          console.log('putItem exception: ', e);
+          callback(e, { status: 'putItem exception' });
+      }
+    } else {
+      callback(err, { status: 'incrementId failed' });
+    }
+  });
 }
