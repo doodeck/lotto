@@ -16,6 +16,7 @@ angular.module('myApp.credentials', [])
 
 	self.$get = function($q, $cacheFactory) {
 	var dynamoCache = $cacheFactory('dynamo'),
+	    lambdaCache = $cacheFactory('lambda'),
 	    credentialsCache = $cacheFactory('credentials'),
 	    credentialsDefer = $q.defer(),
 	    credentialsPromise = credentialsDefer.promise;
@@ -78,6 +79,32 @@ angular.module('myApp.credentials', [])
 				});
 			} else {
 				d.resolve(table);
+			}
+		  });
+		  if (!!self.params)
+		  	credentialsDefer.resolve(self.params);
+		  return d.promise;
+		},
+		invokeLambdaRandom: function() {
+		  console.log('AWSService: making invoke lamba promises with: ', self.params);
+
+		  var d = $q.defer();
+		  credentialsPromise.then(function(params) {
+		  	/* params.credentials = creds; */
+
+		  	console.log('AWSService: invoke lambda promise then, params: ', params);
+			var lambda = lambdaCache.get(JSON.stringify(params.lambda));
+			if (!lambda) {
+				cacheWebIdentityCredentials(params, function(error, credentials) {
+				    console.log('assumeWebIdentityCredentials: ', error, credentials);
+				    params.lambda.credentials = credentials;	
+					/*var*/ lambda = new AWS.Lambda(params.lambda);
+					// lambda.credentials = credentials;
+					lambdaCache.put(JSON.stringify(params.lambda), lambda);
+					d.resolve(lambda);
+				});
+			} else {
+				d.resolve(lambda);
 			}
 		  });
 		  if (!!self.params)

@@ -54,7 +54,19 @@ angular.module('myApp.view1', ['ngRoute'])
     console.log('Tickets before: ', tickets);
 
     var recursiveDbRefresh = function(arrayIds) {
-      
+      AWSService.invokeLambdaRandom().then(function(lambda) {
+        console.log('got lamba api: ', lambda);
+        lambda.invokeAsync();
+
+        var params = {
+          FunctionName: 'cacherandom', // TODO: function name from a config
+          InvokeArgs: '{ "rmIds": [63,"64"] }'
+        };
+        lambda.invokeAsync(params, function(err, data) {
+          if (err) console.log(err, err.stack); // an error occurred
+          else     console.log(data);           // successful response
+        });
+      });
     }
 
     var recursiveFeed = function(recursionParams) {
@@ -89,6 +101,7 @@ angular.module('myApp.view1', ['ngRoute'])
               recursiveFeed(recursionParams);
             } else {
               console.log('recursionParams afterwards: ', JSON.stringify(recursionParams));
+              recursiveDbRefresh(recursionParams.dbRecordsConsumedIds);
             }
           }
         });
