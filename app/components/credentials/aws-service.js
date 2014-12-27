@@ -70,7 +70,7 @@ angular.module('myApp.credentials', [])
 			var table = dynamoCache.get(JSON.stringify(params.dynamoDB));
 			if (!table) {
 				cacheWebIdentityCredentials(params, function(error, credentials) {
-				    console.log('assumeWebIdentityCredentials: ', error, credentials);
+				    console.log('dynamo cacheWebIdentityCredentials: ', error, credentials);
 				    params.dynamoDB.credentials = credentials;	
 					/*var*/ table = new AWS.DynamoDB(params.dynamoDB);
 					// table.credentials = credentials;
@@ -96,7 +96,7 @@ angular.module('myApp.credentials', [])
 			var lambda = lambdaCache.get(JSON.stringify(params.lambda));
 			if (!lambda) {
 				cacheWebIdentityCredentials(params, function(error, credentials) {
-				    console.log('assumeWebIdentityCredentials: ', error, credentials);
+				    console.log('lambda cacheWebIdentityCredentials: ', error, credentials);
 				    params.lambda.credentials = credentials;	
 					/*var*/ lambda = new AWS.Lambda(params.lambda);
 					// lambda.credentials = credentials;

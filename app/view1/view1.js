@@ -53,20 +53,33 @@ angular.module('myApp.view1', ['ngRoute'])
     console.log('moreNeeded: ', tickets.moreNeeded());
     console.log('Tickets before: ', tickets);
 
-    var recursiveDbRefresh = function(arrayIds) {
-      AWSService.invokeLambdaRandom().then(function(lambda) {
-        console.log('got lamba api: ', lambda);
-        lambda.invokeAsync();
+    /*
+              var recursiveDbParams = {
+                arrayIds: recursionParams.dbRecordsConsumedIds,
+                currentIndex: 0
+              };
+    */
+    var recursiveDbRefresh = function(recursiveDbParams) {
+      if (recursiveDbParams.currentIndex < recursiveDbParams.arrayIds.length) {
+        AWSService.invokeLambdaRandom().then(function(lambda) {
+          var params = {
+            FunctionName: 'cacherandom', // TODO: function name from a config
+            InvokeArgs: '{ "rmId": ' + recursiveDbParams.arrayIds[recursiveDbParams.currentIndex].toString() + ' }'
+          };
+          recursiveDbParams.currentIndex++
+          console.log('lambda.invokeAsync: ', params);
 
-        var params = {
-          FunctionName: 'cacherandom', // TODO: function name from a config
-          InvokeArgs: '{ "rmIds": [63,"64"] }'
-        };
-        lambda.invokeAsync(params, function(err, data) {
-          if (err) console.log(err, err.stack); // an error occurred
-          else     console.log(data);           // successful response
+          lambda.invokeAsync(params, function(err, data) {
+            if (err)
+              console.log(err, err.stack); // an error occurred
+            else
+              console.log(data);           // successful response
+            recursiveDbRefresh(recursiveDbParams); // recurse anyway, maybe other calls will succeed
+          });
         });
-      });
+      } else {
+        console.log('recursiveDbRefresh: removed everything possible');
+      }
     }
 
     var recursiveFeed = function(recursionParams) {
@@ -100,8 +113,12 @@ angular.module('myApp.view1', ['ngRoute'])
               // TODO: ideally recursionParams.scanLimit should be set here
               recursiveFeed(recursionParams);
             } else {
+              var recursiveDbParams = {
+                arrayIds: recursionParams.dbRecordsConsumedIds,
+                currentIndex: 0
+              };
               console.log('recursionParams afterwards: ', JSON.stringify(recursionParams));
-              recursiveDbRefresh(recursionParams.dbRecordsConsumedIds);
+              recursiveDbRefresh(recursiveDbParams);
             }
           }
         });
