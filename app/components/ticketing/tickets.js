@@ -31,16 +31,18 @@ Tickets.prototype.moreNeeded = function() {
   return howManyNeeded > 0 ? true : false;
 }
 
-Tickets.prototype.feedTicket = function(params) {
-  while (params.currentTicket.numbers.length < this._numNumbers  && params.srcIndex < params.srcArray.length) {
-    params.currentTicket.numbers.push(params.srcArray[params.srcIndex]);
+// feed either numbers or extras
+Tickets.prototype.feedGroup = function(numArray, numNumbers, params) {
+  while (numArray.length < numNumbers  && params.srcIndex < params.srcArray.length) {
+    numArray.push(params.srcArray[params.srcIndex]);
     params.srcIndex++;
   }
+}
 
-  while (params.currentTicket.extras.length < this._numExtras  && params.srcIndex < params.srcArray.length) {
-    params.currentTicket.extras.push(params.srcArray[params.srcIndex]);
-    params.srcIndex++;
-  }
+Tickets.prototype.feedTicket = function(params) {
+  this.feedGroup(params.currentTicket.numbers, this._numNumbers, params);
+
+  this.feedGroup(params.currentTicket.extras, this._numExtras, params);
 }
 
 // feed the fresh random numbers into the Tickets collection
