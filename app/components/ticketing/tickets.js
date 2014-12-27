@@ -31,25 +31,37 @@ Tickets.prototype.moreNeeded = function() {
   return howManyNeeded > 0 ? true : false;
 }
 
+Tickets.prototype.feedTicket = function(params) {
+  while (params.currentTicket.numbers.length < this._numNumbers  && params.srcIndex < params.srcArray.length) {
+    params.currentTicket.numbers.push(params.srcArray[params.srcIndex]);
+    params.srcIndex++;
+  }
+
+  while (params.currentTicket.extras.length < this._numExtras  && params.srcIndex < params.srcArray.length) {
+    params.currentTicket.extras.push(params.srcArray[params.srcIndex]);
+    params.srcIndex++;
+  }
+}
+
 // feed the fresh random numbers into the Tickets collection
 Tickets.prototype.feedRandom = function(array) {
   if (array.length > 0) {
     // debugger;
-    var srcIndex = 0;
+    // var srcIndex = 0;
+    var params = {
+      // currentTicket: this._tickets[t],
+      srcArray: array,
+      srcIndex: 0
+    };
+
     var firstTicket = this._tickets.length > 0 ? this._tickets.length - 1 : 0;
-    for (var t = firstTicket; t < this._numTickets && srcIndex < array.length; t++) {
+    for (var t = firstTicket; t < this._numTickets && params.srcIndex < params.srcArray.length; t++) {
       if (this._tickets.length <= t)
         this._tickets.push({ numbers: [], extras: [] });
 
-      while (this._tickets[t].numbers.length < this._numNumbers  && srcIndex < array.length) {
-        this._tickets[t].numbers.push(array[srcIndex]);
-        srcIndex++;
-      }
+      params.currentTicket = this._tickets[t];
 
-      while (this._tickets[t].extras.length < this._numExtras  && srcIndex < array.length) {
-        this._tickets[t].extras.push(array[srcIndex]);
-        srcIndex++;
-      }
+      Tickets.prototype.feedTicket.call(this, params);
     }
   }
 }
