@@ -19,7 +19,7 @@
         <progressbar max="progress.max" value="progress.dynamic"><span style="color:black; white-space:nowrap;">{{progress.dynamic}} / {{progress.max}}</span></progressbar>
       </p>
       <p>
-        <div class="panel panel-default">
+        <div ng-show="tickets.stringified.length > 0" class="panel panel-default">
           <!-- Default panel contents -->
           <!--
           <div class="panel-heading">Your tickets</div>
