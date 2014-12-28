@@ -11,7 +11,7 @@ function Tickets(numTickets, numNumbers, highestNumber, numExtras, highestExtra)
   this._numExtras = !!numExtras ? numExtras : 0; // extra per ticket
   this._highestExtra = !!highestExtra ? highestExtra : 0;
 
-  this._tickets = [];// each item:  { numbers: [], extras: [] }
+  this._tickets = [];
 }
 
 // supposedly not needed: Tickets.prototype.constructor = Tickets;
@@ -42,17 +42,23 @@ Tickets.prototype.byte2number = function(byte, highestNumber) {
 }
 
 // feed either numbers or extras
-Tickets.prototype.feedGroup = function(numArray, numNumbers, params) {
+Tickets.prototype.feedGroup = function(numArray, numSet, numNumbers, highestNumber, params) {
   while (numArray.length < numNumbers  && params.srcIndex < params.srcArray.length) {
-    numArray.push(params.srcArray[params.srcIndex]);
+    var number = this.byte2number(params.srcArray[params.srcIndex], highestNumber);
+    if (number !== undefined && !(numSet[number])) {
+      numArray.push(number);
+      numSet[number] = true;
+    }
     params.srcIndex++;
   }
 }
 
 Tickets.prototype.feedTicket = function(params) {
-  this.feedGroup(params.currentTicket.numbers, this._numNumbers, params);
+  this.feedGroup(params.currentTicket.numbers, params.currentTicket.numbersSet,
+                 this._numNumbers, this._highestNumber, params);
 
-  this.feedGroup(params.currentTicket.extras, this._numExtras, params);
+  this.feedGroup(params.currentTicket.extras, params.currentTicket.extrasSet,
+                 this._numExtras, this._highestExtra, params);
 }
 
 // feed the fresh random numbers into the Tickets collection
@@ -69,7 +75,11 @@ Tickets.prototype.feedRandom = function(array) {
     var firstTicket = this._tickets.length > 0 ? this._tickets.length - 1 : 0;
     for (var t = firstTicket; t < this._numTickets && params.srcIndex < params.srcArray.length; t++) {
       if (this._tickets.length <= t)
-        this._tickets.push({ numbers: [], extras: [] });
+        this._tickets.push({ numbers: [], // the actual location of numbers
+          numbersSet: {}, // keep track to avoid duplicates
+          extras: [],
+          extrasSet: {}
+        });
 
       params.currentTicket = this._tickets[t];
 

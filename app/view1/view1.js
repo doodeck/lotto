@@ -33,32 +33,12 @@ angular.module('myApp.view1', ['ngRoute'])
 	$scope.pickTickets = function() {
 		console.log('picking tickets: ', $scope.currentCount);
 
-		/* CORS of course
-		$http.get("https://www.fourmilab.ch/cgi-bin/Hotbits?nbytes=16&fmt=xml&npass=1&lpass=8&pwtype=3").
-			success(function(data, status, headers, config) {
-				console.log('$http.success: ', data, status, headers, config);
-				// this callback will be called asynchronously
-				// when the response is available
-				}).
-			error(function(data, status, headers, config) {
-				console.log('$http.error: ', data, status, headers, config);
-				// called asynchronously if an error occurs
-				// or server returns response with an error status.
-			});
-		*/
-
 		var tickets = new Tickets($scope.currentCount /*numTickets*/, 6 /*numNumbers*/, 49 /*highestNumber, numExtras, highestExtra*/);
 
 		console.log('howManyNeeded: ', tickets.howManyNeeded());
     console.log('moreNeeded: ', tickets.moreNeeded());
     console.log('Tickets before: ', tickets);
 
-    /*
-              var recursiveDbParams = {
-                arrayIds: recursionParams.dbRecordsConsumedIds,
-                currentIndex: 0
-              };
-    */
     var recursiveDbRefresh = function(recursiveDbParams) {
       if (recursiveDbParams.currentIndex < recursiveDbParams.arrayIds.length) {
         AWSService.invokeLambdaRandom().then(function(lambda) {
@@ -85,6 +65,14 @@ angular.module('myApp.view1', ['ngRoute'])
     var recursiveFeed = function(recursionParams) {
       AWSService.dynamoLambdaRandom().then(function(table) {
         var params = {
+          KeyConditions: {
+            Type: {
+              ComparisonOperator: 'EQ',
+              AttributeValueList: [
+                { S: 'Item' } // TODO: ../cacherandom/config.js
+              ],
+            }
+          },
           TableName: 'LambdaRandom',  // TODO: Table name elsewhere
           Limit: recursionParams.scanLimit
         };
@@ -92,7 +80,7 @@ angular.module('myApp.view1', ['ngRoute'])
           params.ExclusiveStartKey = recursionParams.LastEvaluatedKey;
 
         console.log('scan using params: ', params);
-        table.scan(params, function(err, data) {
+        table.query(params, function(err, data) {
           if (err)
             console.log(err, err.stack); // an error occurred
           else {
@@ -110,8 +98,18 @@ angular.module('myApp.view1', ['ngRoute'])
             console.log('howManyNeeded afterwards: ', tickets.howManyNeeded());
             console.log('Tickets afterwards: ', tickets);
             if (tickets.moreNeeded()) {
-              // TODO: ideally recursionParams.scanLimit should be set here
-              recursiveFeed(recursionParams);
+              if (!data.LastEvaluatedKey) {
+                console.log('Got out of random DB records before filling the tickets');
+                // try to generate some additional records without deleting anything
+                var recursiveDbParams = {
+                  arrayIds: [0,0,0,0,0,0,0,0,0,0],
+                  currentIndex: 0
+                };
+                recursiveDbRefresh(recursiveDbParams);
+              } else {
+                // TODO: ideally recursionParams.scanLimit should be increased here
+                recursiveFeed(recursionParams);                
+              }
             } else {
               var recursiveDbParams = {
                 arrayIds: recursionParams.dbRecordsConsumedIds,
