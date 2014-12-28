@@ -1,0 +1,10 @@
+{
+  "firebase": "lotto",
+  "public": "app",
+  "ignore": [
+    "firebase.json",
+    "**/.*",
+    "**/cacherandom/**",
+    "**/node_modules/**"
+  ]
+}
