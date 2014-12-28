@@ -2,6 +2,8 @@
 
 'use strict';
 
+var byteCapacity = 256; // number of distinct numbers which can be encoded on byte
+
 function Tickets(numTickets, numNumbers, highestNumber, numExtras, highestExtra) {
   this._numTickets = numTickets;
   this._numNumbers = numNumbers; // numbers per ticket
@@ -29,6 +31,14 @@ Tickets.prototype.moreNeeded = function() {
   var howManyNeeded = Tickets.prototype.howManyNeeded.call(this);
 
   return howManyNeeded > 0 ? true : false;
+}
+
+// return a number on the 1..highestNumber range inclusive, or undefined for error
+Tickets.prototype.byte2number = function(byte, highestNumber) {
+  var repetitions = Math.floor(byteCapacity / highestNumber);
+  var releaseCandidate = 1 + Math.floor(byte / repetitions);
+
+  return releaseCandidate > highestNumber ? undefined : releaseCandidate;
 }
 
 // feed either numbers or extras
@@ -66,4 +76,9 @@ Tickets.prototype.feedRandom = function(array) {
       Tickets.prototype.feedTicket.call(this, params);
     }
   }
+}
+
+// used by the testing code, not the browser
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+  module.exports = Tickets;
 }
