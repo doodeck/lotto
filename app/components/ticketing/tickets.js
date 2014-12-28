@@ -16,6 +16,33 @@ function Tickets(numTickets, numNumbers, highestNumber, numExtras, highestExtra)
 
 // supposedly not needed: Tickets.prototype.constructor = Tickets;
 
+Tickets.prototype.stringify = function() {
+  var retVal = {
+    "extrasVisible": false, 
+    "stringified": []
+  };
+  for (var t in this._tickets) {
+    var ticket = this._tickets[t];
+    var stringItem = {};
+    for (var n in ticket.numbersSet) {
+      if (!stringItem.numbers)
+        stringItem.numbers = n.toString();
+      else
+        stringItem.numbers = stringItem.numbers.concat(',' + n.toString());
+    }
+    for (var e in ticket.extrasSet) {
+      if (!stringItem.extras) {
+        stringItem.extras = e.toString();
+        retVal.extrasVisible = true;
+      } else
+        stringItem.extras = stringItem.extras.concat(',' + e.toString());
+    }
+    retVal.stringified.push(stringItem);
+  }
+
+  return retVal;
+}
+
 // return the number of random numbers stll required to fill the tickets
 Tickets.prototype.howManyNeeded = function() {
   var lastItemIfAny = this._tickets.length - 1;

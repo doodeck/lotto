@@ -15,6 +15,32 @@
       <p>
         <a class="btn btn-lg btn-success" ng-click="pickTickets()" role="button">Pick Tickets</a>
       </p>
+      <p>
+        <progressbar max="progress.max" value="progress.dynamic"><span style="color:black; white-space:nowrap;">{{progress.dynamic}} / {{progress.max}}</span></progressbar>
+      </p>
+      <p>
+        <div class="panel panel-default">
+          <!-- Default panel contents -->
+          <!--
+          <div class="panel-heading">Your tickets</div>
+          <div class="panel-body">
+            <p>{{tickets | json}}</p>
+          </div>
+          -->
+          <table class="table table-hover">
+            <thead>
+              <td>Numbers</td>
+              <td ng-show="tickets.extrasVisible">Extras</td>
+            </thead>
+            <tbody>
+              <tr ng-repeat="ticket in tickets.stringified" >
+                <td>{{ticket.numbers}}</td>
+                <td ng-show="tickets.extrasVisible">{{ticket.extras}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </p>
     </div>
   </div>
 </div>

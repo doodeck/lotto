@@ -12,7 +12,16 @@ angular.module('myApp.view1', ['ngRoute'])
 .controller('View1Ctrl', ['$scope', '$http', 'AWSService', function($scope, $http, AWSService) {
 	$scope.pickCounts = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 50 ];
 	$scope.currentCount = $scope.pickCounts[0];
-	$scope.viewName = "view 1";
+  $scope.viewName = "view 1";
+  $scope.progress = {
+    max: 100,
+    dynamic: 45,
+    visible: true
+  };
+  $scope.tickets = {
+    extrasVisible: false,
+    stringified: []
+  };
 
 	AWSService.dynamoLambdaRandom().then(function(table) {
 		console.log('describingTable using table: ', table);
@@ -33,7 +42,7 @@ angular.module('myApp.view1', ['ngRoute'])
 	$scope.pickTickets = function() {
 		console.log('picking tickets: ', $scope.currentCount);
 
-		var tickets = new Tickets($scope.currentCount /*numTickets*/, 6 /*numNumbers*/, 49 /*highestNumber, numExtras, highestExtra*/);
+		var tickets = new Tickets($scope.currentCount /*numTickets*/, 6 /*numNumbers*/, 49 /*highestNumber*/, 0 /*numExtras*/, 10/*highestExtra*/);
 
 		console.log('howManyNeeded: ', tickets.howManyNeeded());
     console.log('moreNeeded: ', tickets.moreNeeded());
@@ -59,6 +68,8 @@ angular.module('myApp.view1', ['ngRoute'])
         });
       } else {
         console.log('recursiveDbRefresh: removed everything possible');
+        if (!!recursiveDbParams.callback)
+          recursiveDbParams.callback(undefined, { status: "OK"} );
       }
     }
 
@@ -113,7 +124,13 @@ angular.module('myApp.view1', ['ngRoute'])
             } else {
               var recursiveDbParams = {
                 arrayIds: recursionParams.dbRecordsConsumedIds,
-                currentIndex: 0
+                currentIndex: 0,
+                callback: function(err, status) {
+                            if (!err) {
+                              $scope.tickets = tickets.stringify();
+                              $scope.$apply();
+                            }
+                          }
               };
               console.log('recursionParams afterwards: ', JSON.stringify(recursionParams));
               recursiveDbRefresh(recursiveDbParams);
