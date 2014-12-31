@@ -2,6 +2,20 @@
 
 Cloned from: angular-seed — the seed for AngularJS apps
 
+## Demo
+An instance of this application is deployed here:
+
+https://lotto.firebaseapp.com/
+
+Only static app hosting finctionality is used, the FB database is not involved.
+
+## AWS Free Tier
+The application is eligible for AWS Free Tier:
+
+http://aws.amazon.com/free/
+
+The free tier for the services used remains available indefinitely, not only during the first 12 months!
+
 ## Getting Started
 
 To get you started you can simply clone the lotto repository and install the dependencies:
