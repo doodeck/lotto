@@ -53,7 +53,7 @@ angular.module('myApp.view1', ['ngRoute'])
     // $scope.progress.max = howManyNeededMax;
     $scope.progress.dynamic = 0; // howManyNeededMax - tickets.howManyNeeded()
     $scope.progress.visible = true;
-    $scope.$apply();
+    // $scope.$apply();
 
     var recursiveDbRefresh = function(recursiveDbParams) {
       if (recursiveDbParams.currentIndex < recursiveDbParams.arrayIds.length) {
