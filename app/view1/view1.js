@@ -14,9 +14,9 @@ angular.module('myApp.view1', ['ngRoute'])
 	$scope.currentCount = $scope.pickCounts[0];
   $scope.viewName = "view 1";
   $scope.progress = {
-    max: 100,
-    dynamic: 45,
-    visible: true
+    max: 100, // it cannot be changed dynamically
+    dynamic: 0,
+    visible: false
   };
   $scope.tickets = {
     extrasVisible: false,
@@ -44,9 +44,16 @@ angular.module('myApp.view1', ['ngRoute'])
 
 		var tickets = new Tickets($scope.currentCount /*numTickets*/, 6 /*numNumbers*/, 49 /*highestNumber*/, 0 /*numExtras*/, 10/*highestExtra*/);
 
-		console.log('howManyNeeded: ', tickets.howManyNeeded());
+    var howManyNeededMax = tickets.howManyNeeded();
+
+		console.log('howManyNeeded: ', howManyNeededMax);
     console.log('moreNeeded: ', tickets.moreNeeded());
     console.log('Tickets before: ', tickets);
+
+    // $scope.progress.max = howManyNeededMax;
+    $scope.progress.dynamic = 0; // howManyNeededMax - tickets.howManyNeeded()
+    $scope.progress.visible = true;
+    $scope.$apply();
 
     var recursiveDbRefresh = function(recursiveDbParams) {
       if (recursiveDbParams.currentIndex < recursiveDbParams.arrayIds.length) {
@@ -108,6 +115,10 @@ angular.module('myApp.view1', ['ngRoute'])
 
             console.log('howManyNeeded afterwards: ', tickets.howManyNeeded());
             console.log('Tickets afterwards: ', tickets);
+
+            $scope.progress.dynamic = $scope.progress.max * Math.floor((howManyNeededMax - tickets.howManyNeeded()) / howManyNeededMax);
+            // $scope.$apply();
+
             if (tickets.moreNeeded()) {
               if (!data.LastEvaluatedKey) {
                 console.log('Got out of random DB records before filling the tickets');
@@ -128,6 +139,7 @@ angular.module('myApp.view1', ['ngRoute'])
                 callback: function(err, status) {
                             if (!err) {
                               $scope.tickets = tickets.stringify();
+                              $scope.progress.visible = false;
                               $scope.$apply();
                             }
                           }

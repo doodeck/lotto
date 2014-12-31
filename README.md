@@ -1,4 +1,4 @@
-# lotto - lottery number quick picker based on radioactive decay random data
+# lotto - lottery numbers quick picker based on radioactive decay random data
 
 Cloned from: angular-seed — the seed for AngularJS apps
 
