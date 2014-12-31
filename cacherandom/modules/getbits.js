@@ -35,6 +35,7 @@ exports.getFreshBits = function(callback) {
       function (error, response, body) {
         if (!error && response.statusCode == 200) {
           console.log(body);
+          console.log(body.toString());
           var byteArray = new Uint8Array(body),
               array = [];
           for (var i = 0; i < byteArray.byteLength; i++) {
