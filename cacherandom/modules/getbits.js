@@ -2,6 +2,8 @@
 
 'use strict';
 
+var config = require('../config');
+
 var request = require('request');
 var parseString = require('xml2js').parseString;
 
@@ -27,7 +29,7 @@ exports.getFreshBits = function(callback) {
   } else {
     var requestSettings = {
        method: 'GET',
-       url: 'https://www.fourmilab.ch/cgi-bin/Hotbits?nbytes=16&fmt=bin&npass=1&lpass=8&pwtype=3',
+       url: 'https://www.fourmilab.ch/cgi-bin/Hotbits?nbytes=' + config.hotbits.blockLen.toString() + '&fmt=bin&npass=1&lpass=8&pwtype=3',
        encoding: null
     };
 
@@ -35,15 +37,21 @@ exports.getFreshBits = function(callback) {
       function (error, response, body) {
         if (!error && response.statusCode == 200) {
           console.log(body);
-          console.log(body.toString());
-          var byteArray = new Uint8Array(body),
-              array = [];
-          for (var i = 0; i < byteArray.byteLength; i++) {
-            // do something with each byte in the array
-            // console.log('byte[', i, ']: ', byteArray[i]);
-            array.push(byteArray[i]);
+          console.log('body.length: ', body.length);
+          if (body.length == config.hotbits.blockLen) {
+            var byteArray = new Uint8Array(body),
+                array = [];
+            for (var i = 0; i < byteArray.byteLength; i++) {
+              // do something with each byte in the array
+              // console.log('byte[', i, ']: ', byteArray[i]);
+              array.push(byteArray[i]);
+            }
+            callback(undefined, { status: 'OK', array: array });
+          } else {
+            console.log('The returned block length mismatch: ', body.length, ' vs. ', config.hotbits.blockLen);
+            console.log(body.toString());
+            callback({ error: 'block length mismatch' }, undefined);
           }
-          callback(undefined, { status: 'OK', array: array });
         } else {
           callback(error, response);
         }
@@ -51,4 +59,3 @@ exports.getFreshBits = function(callback) {
     );
   }
 }
-

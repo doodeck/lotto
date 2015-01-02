@@ -8,13 +8,17 @@ var CONFIG = {
     tableName: 'LambdaRandom',
     types: {
       counter: 'Counter',
-      item: 'Item'
+      item: 'Item',
+      hotbitsCounter: 'Hotbits'
     },
     counter: {
-      type: 'Counter',
+      type: 'Counter', // or 'Hotbits'
       id: '1',
       attr: 'Val'
     }
+  },
+  hotbits: {
+    blockLen: 16
   }
 };
 

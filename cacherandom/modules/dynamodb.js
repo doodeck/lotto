@@ -9,15 +9,15 @@ AWS.config.update({region: config.region});
 var dynamodb = new AWS.DynamoDB({});
 
 // values for "Type" field
-var typeCounter = config.dynamodb.types.counter;
-var typeItem = config.dynamodb.types.item;
+// var typeCounter = config.dynamodb.types.counter;
+// var typeItem = config.dynamodb.types.item;
 
-var incrementId = function(callback) {
+var incrementId = function(typeName, callback) {
   try {
       var item = {
           Key: {
               Type: {
-                  S: config.dynamodb.types.counter
+                  S: typeName // config.dynamodb.types.counter
               },
               Id: {
                 N: config.dynamodb.counter.id
@@ -47,12 +47,36 @@ var incrementId = function(callback) {
   }
 }
 
-exports.appendItem = function(array, callback) {
+var dynamoId = function(callback) {
+  incrementId(config.dynamodb.types.counter, function(err, data) {
+    if (!err && !!data) {
+      callback(undefined, { value: data.Attributes.Val.N });
+    } else {
+      callback(err, { status: 'incrementId failed' });
+    }
+  });
+}
+
+exports.hotbitsId = function(callback) {
+  incrementId(config.dynamodb.types.hotbitsCounter, function(err, data) {
+    if (!err && !!data) {
+      callback(undefined, { value: data.Attributes.Val.N });
+    } else {
+      callback(err, { status: 'incrementId failed' });
+    }
+  });
+}
+
+exports.appendItem = function(params, callback) {
+  var array = params.array;
+  var hotId = params.hotId;
+
   var dynamoArray = [];
   for (var item in array) {
     dynamoArray.push({ N: array[item].toString() });
   }
-  incrementId(function(err, data) {
+
+  dynamoId(function(err, data) {
     if (!err && !!data) {
       try {
           var item = {
@@ -61,13 +85,16 @@ exports.appendItem = function(array, callback) {
                       S: config.dynamodb.types.item
                   },
                   Id: {
-                    N: data.Attributes.Val.N
+                    N: data.value
                   },
                   Count: {
                     N: array.length.toString()
                   },
                   Array: {
                     L: dynamoArray
+                  },
+                  HotId: {
+                    N: hotId.toString()
                   }
               },
               TableName: config.dynamodb.tableName
@@ -82,7 +109,7 @@ exports.appendItem = function(array, callback) {
           callback(e, { status: 'putItem exception' });
       }
     } else {
-      callback(err, { status: 'incrementId failed' });
+      callback(err, { status: 'dynamoId failed' });
     }
   });
 }
