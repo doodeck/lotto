@@ -13,7 +13,7 @@
         </ul>
       </div>
       <p>
-        <a class="btn btn-lg btn-success" ng-click="pickTickets()" role="button">Pick Tickets</a>
+        <a class="btn btn-lg btn-success" ng-click="pickTickets()" role="button" ng-disabled="progress.visible">Pick Tickets</a>
       </p>
       <p ng-show="progress.visible">
         <progressbar max="progress.max" value="progress.dynamic"><span style="color:black; white-space:nowrap;">{{progress.dynamic}} / {{progress.max}}</span></progressbar>
