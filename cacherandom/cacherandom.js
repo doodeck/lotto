@@ -2,8 +2,8 @@
 
 'use strict';
 
-var dbase = require('modules/dynamodb');
-var getbits = require('modules/getbits');
+var dbase = require('./modules/dynamodb');
+var getbits = require('./modules/getbits');
 
 console.log('Loading event');
 
@@ -40,7 +40,7 @@ exports.handler = function(event, context) {
         if (!err && !!data) {
           var hotId = data.value;
 
-          dbase.appendItem({ hotId: hotId, array: bitsArray }, function(err, data) {
+          dbase.appendItems({ hotId: hotId, array: bitsArray }, function(err, data) {
             console.log('db.appendItem returned: ', data);
             removeItems(event, context);
           });

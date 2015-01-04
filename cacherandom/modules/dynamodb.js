@@ -55,7 +55,17 @@ var dynamoId = function(callback) {
     if (!err && !!data) {
       callback(undefined, { value: data.Attributes.Val.N });
     } else {
-      callback(err, { status: 'incrementId failed' });
+      callback(err, { status: 'dynamoId: incrementId failed' });
+    }
+  });
+}
+
+var dynamoIds = function(increment, callback) {
+  incrementId({ typeName: config.dynamodb.types.counter, increment: increment }, function(err, data) {
+    if (!err && !!data) {
+      callback(undefined, { value: data.Attributes.Val.N });
+    } else {
+      callback(err, { status: 'dynamoIds: incrementId failed' });
     }
   });
 }
@@ -65,7 +75,79 @@ exports.hotbitsId = function(callback) {
     if (!err && !!data) {
       callback(undefined, { value: data.Attributes.Val.N });
     } else {
-      callback(err, { status: 'incrementId failed' });
+      callback(err, { status: 'hotbitsId: incrementId failed' });
+    }
+  });
+}
+
+exports.appendItems = function(params, callback) {
+  var array = params.array;
+  var srcIndex = 0;
+  var hotId = params.hotId;
+  var recCnt = Math.ceil(array.length / config.dynamodb.blockLen);
+
+  dynamoIds(recCnt, function(err, data) {
+    if (!err && !!data) {
+      var latestWritten = data.value;
+      console.log('appendItems: recCnt: ', recCnt, 'latestWritten: ', latestWritten);
+
+      var params = {
+        RequestItems: {
+          /*
+          LambdaRandom: [ // config.dynamodb.tableName: 
+          ]
+          */
+        }
+      };
+      params.RequestItems[config.dynamodb.tableName] = [];
+
+      for (var i = recCnt - 1; i >= 0 && srcIndex < array.length; i--) {
+        var dynamoArray = new Array();
+        for (var j = 0; j < config.dynamodb.blockLen && srcIndex < array.length; j++) {
+          dynamoArray.push({ N: array[srcIndex].toString() });
+          srcIndex++;
+        }
+        params.RequestItems[config.dynamodb.tableName].push({
+          PutRequest: {
+            Item: {
+                Type: {
+                    S: config.dynamodb.types.item
+                },
+                Id: {
+                  N: (latestWritten - i).toString()
+                },
+                Count: {
+                  N: dynamoArray.length.toString()
+                },
+                Array: {
+                  L: dynamoArray
+                },
+                HotId: {
+                  N: hotId.toString()
+                }
+            }
+          }
+        });
+      }
+      console.log('batchWriteItem: ', JSON.stringify(params));
+      try {
+        dynamodb.batchWriteItem(params, function(err, data) {
+          /* TODO: tak care of "UnprocessedItems":{}
+          http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ErrorHandling.html#BatchOperations */
+          if (err) {
+              console.log(err, err.stack); // an error occurred
+              callback(err, { status: 'batchWriteItem failed' });
+          } else {
+              console.log('batchWriteItem ok: ', JSON.stringify(data));           // successful response
+              callback(undefined, data);
+          }
+        });
+      } catch(e) {
+        console.log('batchWriteItem exception: ', e);
+        callback(e, { status: 'batchWriteItem exception' });
+      }
+    } else {
+      callback(err, { status: 'dynamoIds failed' });
     }
   });
 }
@@ -159,7 +241,7 @@ exports.removeItems = function(IdArray, callback) {
     params.RequestItems[config.dynamodb.tableName] = [];
 
     for (var id in IdArray) {
-      params.RequestItems.LambdaRandom.push({
+      params.RequestItems[config.dynamodb.tableName].push({
         DeleteRequest: {
           Key: {
               Type: {

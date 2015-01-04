@@ -15,10 +15,11 @@ var CONFIG = {
       type: 'Counter', // or 'Hotbits'
       id: '1',
       attr: 'Val'
-    }
+    },
+    blockLen: 16 // hotbit numbers in a single DB item
   },
   hotbits: {
-    blockLen: 16
+    blockLen: 45 // hotbit numbers in a single hotbits Request
   }
 };
 
