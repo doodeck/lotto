@@ -68,8 +68,19 @@ aws --profile lambda dynamodb describe-table --table-name LambdaRandom
 
 aws --profile lambda dynamodb scan --table-name LambdaRandom
 {
-    "Count": 1, 
+    "Count": 2, 
     "Items": [
+        {
+            "Type": {
+                "S": "Hotbits"
+            }, 
+            "Id": {
+                "N": "1"
+            }, 
+            "Val": {
+                "N": "91"
+            }
+        }, 
         {
             "Type": {
                 "S": "Counter"
@@ -78,11 +89,11 @@ aws --profile lambda dynamodb scan --table-name LambdaRandom
                 "N": "1"
             }, 
             "Val": {
-                "N": "7"
+                "N": "542"
             }
         }
     ], 
-    "ScannedCount": 1, 
+    "ScannedCount": 2, 
     "ConsumedCapacity": null
 }
 */
