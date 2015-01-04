@@ -33,7 +33,31 @@ module.exports = global.NODE_CONFIG;
 aws --profile lambda dynamodb describe-table --table-name LambdaRandom
 {
     "Table": {
+        "LocalSecondaryIndexes": [
+            {
+                "KeySchema": [
+                    {
+                        "KeyType": "HASH", 
+                        "AttributeName": "Type"
+                    }, 
+                    {
+                        "KeyType": "RANGE", 
+                        "AttributeName": "HotId"
+                    }
+                ], 
+                "IndexSizeBytes": 0, 
+                "ItemCount": 0, 
+                "IndexName": "HotId-index", 
+                "Projection": {
+                    "ProjectionType": "KEYS_ONLY"
+                }
+            }
+        ], 
         "AttributeDefinitions": [
+            {
+                "AttributeName": "HotId", 
+                "AttributeType": "N"
+            }, 
             {
                 "AttributeName": "Id", 
                 "AttributeType": "N"
@@ -62,7 +86,7 @@ aws --profile lambda dynamodb describe-table --table-name LambdaRandom
             }
         ], 
         "ItemCount": 0, 
-        "CreationDateTime": 1419579048.059
+        "CreationDateTime": 1420406213.19
     }
 }
 
@@ -78,7 +102,10 @@ aws --profile lambda dynamodb scan --table-name LambdaRandom
                 "N": "1"
             }, 
             "Val": {
-                "N": "91"
+                "N": "2"
+            }, 
+            "HotId": {
+                "N": "1"
             }
         }, 
         {
@@ -89,7 +116,10 @@ aws --profile lambda dynamodb scan --table-name LambdaRandom
                 "N": "1"
             }, 
             "Val": {
-                "N": "542"
+                "N": "4"
+            }, 
+            "HotId": {
+                "N": "1"
             }
         }
     ], 
