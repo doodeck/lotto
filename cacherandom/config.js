@@ -19,7 +19,8 @@ var CONFIG = {
     blockLen: 16 // hotbit numbers in a single DB item
   },
   hotbits: {
-    blockLen: 45 // hotbit numbers in a single hotbits Request
+    blockLen: 256 // hotbit numbers in a single hotbits Request
+    // hotbits.blockLen / dynamodb.blockLen ratio must not exceed 25 (items are written in a single batchWriteItem)
   }
 };
 

@@ -32,9 +32,9 @@ var removeItems = function(event, context) {
 exports.handler = function(event, context) {
   console.log("event = " + JSON.stringify(event));
   getbits.getFreshBits(function(err, data) {
-  	console.log('getFreshBits returned: ', err, data);
-    var bitsArray = data.array;
-    if (!err) {
+  	// console.log('getFreshBits returned: ', err, data);
+    if (!err && !!data) {
+      var bitsArray = data.array;
       dbase.hotbitsId(function(err, data) {
         console.log('hotbitsId returned: ', err, data);
         if (!err && !!data) {
@@ -48,7 +48,7 @@ exports.handler = function(event, context) {
           removeItems(event, context);
         }
       });            
-    } else { // don't apend anything if getFreshBits failed, but I guess I still should remove whatever I'm expected to remove?
+    } else { // don't append anything if getFreshBits failed, but I guess I still should remove whatever I'm expected to remove?
       removeItems(event, context);
     }
   });
