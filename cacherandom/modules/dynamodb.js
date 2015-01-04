@@ -12,7 +12,10 @@ var dynamodb = new AWS.DynamoDB({});
 // var typeCounter = config.dynamodb.types.counter;
 // var typeItem = config.dynamodb.types.item;
 
-var incrementId = function(typeName, callback) {
+var incrementId = function(params, callback) {
+  var typeName = params.typeName;
+  var increment = !!params.increment ? params.increment.toString() : "1";
+
   try {
       var item = {
           Key: {
@@ -27,7 +30,7 @@ var incrementId = function(typeName, callback) {
           UpdateExpression: 'SET ' + config.dynamodb.counter.attr +
           ' = ' + config.dynamodb.counter.attr + ' + :one',
           ExpressionAttributeValues: {
-              ":one" : { N: "1" }
+              ":one" : { N: increment }
           },
           ReturnValues: "UPDATED_NEW"
       };
@@ -48,7 +51,7 @@ var incrementId = function(typeName, callback) {
 }
 
 var dynamoId = function(callback) {
-  incrementId(config.dynamodb.types.counter, function(err, data) {
+  incrementId({ typeName: config.dynamodb.types.counter }, function(err, data) {
     if (!err && !!data) {
       callback(undefined, { value: data.Attributes.Val.N });
     } else {
@@ -58,7 +61,7 @@ var dynamoId = function(callback) {
 }
 
 exports.hotbitsId = function(callback) {
-  incrementId(config.dynamodb.types.hotbitsCounter, function(err, data) {
+  incrementId({ typeName: config.dynamodb.types.hotbitsCounter }, function(err, data) {
     if (!err && !!data) {
       callback(undefined, { value: data.Attributes.Val.N });
     } else {
