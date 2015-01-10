@@ -26,7 +26,7 @@ var incrementId = function(params, callback) {
                 N: config.dynamodb.counter.id
               }
           },
-          TableName: config.dynamodb.tableName,
+          TableName: config.dynamodb.tableNames.hotbits,
           UpdateExpression: 'SET ' + config.dynamodb.counter.attr +
           ' = ' + config.dynamodb.counter.attr + ' + :one',
           ExpressionAttributeValues: {
@@ -93,13 +93,9 @@ exports.appendItems = function(params, callback) {
 
       var params = {
         RequestItems: {
-          /*
-          LambdaRandom: [ // config.dynamodb.tableName: 
-          ]
-          */
         }
       };
-      params.RequestItems[config.dynamodb.tableName] = [];
+      params.RequestItems[config.dynamodb.tableNames.hotbits] = [];
 
       for (var i = recCnt - 1; i >= 0 && srcIndex < array.length; i--) {
         var dynamoArray = new Array();
@@ -107,7 +103,7 @@ exports.appendItems = function(params, callback) {
           dynamoArray.push({ N: array[srcIndex].toString() });
           srcIndex++;
         }
-        params.RequestItems[config.dynamodb.tableName].push({
+        params.RequestItems[config.dynamodb.tableNames.hotbits].push({
           PutRequest: {
             Item: {
                 Type: {
@@ -182,7 +178,7 @@ exports.appendItem = function(params, callback) {
                     N: hotId.toString()
                   }
               },
-              TableName: config.dynamodb.tableName
+              TableName: config.dynamodb.tableNames.hotbits
           };
           console.log('putItem item: ', item);
           dynamodb.putItem(item, function(err, data) {
@@ -210,7 +206,7 @@ exports.removeItem = function(Id, callback) {
                 N: Id.toString()
               }
           },
-          TableName: config.dynamodb.tableName
+          TableName: config.dynamodb.tableNames.hotbits
       };
       console.log('delete item: ', item);
       dynamodb.deleteItem(item, function(err, data) {
@@ -232,16 +228,12 @@ exports.removeItems = function(IdArray, callback) {
   try {
     var params = {
       RequestItems: {
-        /*
-        LambdaRandom: [ // config.dynamodb.tableName: 
-        ]
-        */
       }
     };
-    params.RequestItems[config.dynamodb.tableName] = [];
+    params.RequestItems[config.dynamodb.tableNames.hotbits] = [];
 
     for (var id in IdArray) {
-      params.RequestItems[config.dynamodb.tableName].push({
+      params.RequestItems[config.dynamodb.tableNames.hotbits].push({
         DeleteRequest: {
           Key: {
               Type: {

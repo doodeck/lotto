@@ -5,7 +5,10 @@
 var CONFIG = {
   region: 'eu-west-1',
   dynamodb: {
-    tableName: 'LambdaRandom',
+    tableNames: {
+        hotbits: 'LambdaRandom',
+        counters: 'Lotto_Counters'
+    },
     types: {
       counter: 'Counter',
       item: 'Item',
