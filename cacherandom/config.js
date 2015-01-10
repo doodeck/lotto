@@ -94,7 +94,35 @@ aws --profile lambda dynamodb describe-table --table-name LambdaRandom
     }
 }
 
-aws --profile lambda dynamodb scan --table-name LambdaRandom
+aws --profile lambda dynamodb describe-table --table-name Lotto_Counters
+{
+    "Table": {
+        "AttributeDefinitions": [
+            {
+                "AttributeName": "Type", 
+                "AttributeType": "S"
+            }
+        ], 
+        "ProvisionedThroughput": {
+            "NumberOfDecreasesToday": 0, 
+            "WriteCapacityUnits": 2, 
+            "ReadCapacityUnits": 2
+        }, 
+        "TableSizeBytes": 0, 
+        "TableName": "Lotto_Counters", 
+        "TableStatus": "ACTIVE", 
+        "KeySchema": [
+            {
+                "KeyType": "HASH", 
+                "AttributeName": "Type"
+            }
+        ], 
+        "ItemCount": 0, 
+        "CreationDateTime": 1420883840.277
+    }
+}
+
+aws --profile lambda dynamodb scan --table-name Lotto_Counters
 {
     "Count": 2, 
     "Items": [
@@ -102,32 +130,21 @@ aws --profile lambda dynamodb scan --table-name LambdaRandom
             "Type": {
                 "S": "Hotbits"
             }, 
-            "Id": {
-                "N": "1"
-            }, 
             "Val": {
                 "N": "2"
-            }, 
-            "HotId": {
-                "N": "1"
             }
         }, 
         {
             "Type": {
                 "S": "Counter"
             }, 
-            "Id": {
-                "N": "1"
-            }, 
             "Val": {
-                "N": "4"
-            }, 
-            "HotId": {
-                "N": "1"
+                "N": "17"
             }
         }
     ], 
     "ScannedCount": 2, 
     "ConsumedCapacity": null
 }
+
 */

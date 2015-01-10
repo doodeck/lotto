@@ -21,12 +21,12 @@ var incrementId = function(params, callback) {
           Key: {
               Type: {
                   S: typeName // config.dynamodb.types.counter
-              },
+              } /*,
               Id: {
                 N: config.dynamodb.counter.id
-              }
+              }*/
           },
-          TableName: config.dynamodb.tableNames.hotbits,
+          TableName: config.dynamodb.tableNames.counters,
           UpdateExpression: 'SET ' + config.dynamodb.counter.attr +
           ' = ' + config.dynamodb.counter.attr + ' + :one',
           ExpressionAttributeValues: {
