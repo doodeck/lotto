@@ -60,7 +60,11 @@ angular.module('myApp.view1', ['ngRoute'])
         AWSService.invokeLambdaRandom().then(function(lambda) {
           var params = {
             FunctionName: 'cacherandom', // TODO: function name from a config
-            InvokeArgs: '{ "rmId": ' + recursiveDbParams.arrayIds[recursiveDbParams.currentIndex].toString() + ' }'
+            InvokeArgs: '{ ' +
+                           '"rmId": ' + recursiveDbParams.arrayIds[recursiveDbParams.currentIndex].toString() + ', ' +
+                           '"rmObj": ' +
+                               JSON.stringify(recursiveDbParams.arrayObjs[recursiveDbParams.currentIndex]) +
+                        '}'
           };
           recursiveDbParams.currentIndex++
           console.log('lambda.invokeAsync: ', params);
@@ -111,6 +115,10 @@ angular.module('myApp.view1', ['ngRoute'])
               }
               tickets.feedRandom(arrayIds);
               recursionParams.dbRecordsConsumedIds.push(data.Items[r].Id.N);
+              recursionParams.dbRecordsConsumedObjs.push({
+                HotId: data.Items[r].HotId.N,
+                Id: data.Items[r].Id.N
+              });
             }
 
             console.log('howManyNeeded afterwards: ', tickets.howManyNeeded());
@@ -124,7 +132,12 @@ angular.module('myApp.view1', ['ngRoute'])
                 console.log('Got out of random DB records before filling the tickets');
                 // try to generate some additional records without deleting anything
                 var recursiveDbParams = {
-                  arrayIds: [0,0,0,0,0,0,0,0,0,0],
+                  arrayIds: [0,0,0],
+                  arrayObjs: [
+                    { HotId: 0, Id: 0 },
+                    { HotId: 0, Id: 0 },
+                    { HotId: 0, Id: 0 }
+                  ],
                   currentIndex: 0
                 };
                 recursiveDbRefresh(recursiveDbParams);
@@ -135,6 +148,7 @@ angular.module('myApp.view1', ['ngRoute'])
             } else {
               var recursiveDbParams = {
                 arrayIds: recursionParams.dbRecordsConsumedIds,
+                arrayObjs: recursionParams.dbRecordsConsumedObjs,
                 currentIndex: 0,
                 callback: function(err, status) {
                             if (!err) {
@@ -154,6 +168,7 @@ angular.module('myApp.view1', ['ngRoute'])
 
     var recursionParams = {
       dbRecordsConsumedIds: [],
+      dbRecordsConsumedObjs: [],
       scanLimit: 1
     };
     
