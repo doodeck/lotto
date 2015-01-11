@@ -6,10 +6,10 @@ var CONFIG = {
   region: 'eu-west-1',
   dynamodb: {
     tableNames: {
-        hotbits: 'LambdaRandom',
+        hotbits: 'LambdaRandom', // 'Lotto_Hotbits', // 'LambdaRandom',
         counters: 'Lotto_Counters'
     },
-    types: {
+    types: { // to be obsoleted
       counter: 'Counter',
       item: 'Item',
       hotbitsCounter: 'Hotbits'
