@@ -12,6 +12,8 @@ function Tickets(numTickets, numNumbers, highestNumber, numExtras, highestExtra)
   this._highestExtra = !!highestExtra ? highestExtra : 0;
 
   this._tickets = [];
+
+  this._digitSep = ' - ';
 }
 
 // supposedly not needed: Tickets.prototype.constructor = Tickets;
@@ -28,14 +30,14 @@ Tickets.prototype.stringify = function() {
       if (!stringItem.numbers)
         stringItem.numbers = n.toString();
       else
-        stringItem.numbers = stringItem.numbers.concat(',' + n.toString());
+        stringItem.numbers = stringItem.numbers.concat(this._digitSep + n.toString());
     }
     for (var e in ticket.extrasSet) {
       if (!stringItem.extras) {
         stringItem.extras = e.toString();
         retVal.extrasVisible = true;
       } else
-        stringItem.extras = stringItem.extras.concat(',' + e.toString());
+        stringItem.extras = stringItem.extras.concat(this._digitSep + e.toString());
     }
     retVal.stringified.push(stringItem);
   }
