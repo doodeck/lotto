@@ -82,6 +82,7 @@ On the next page you'll see the sampel code for Android, iOS and .NET. Copy/Past
 In AWS xonsole open IAM module. Edit the roles. Edit the unathenticated role (e.g. "Cognito_LambdaRandomUnauth_DefaultRole") you have just created. In the Permissions section click "Attach Role Policy". Depending on your experience and personal preferences go through either "Policy Generator" or "Custom Policy". Create a policy with selected read-only access to the DynamoDB database, e.g.
 
 ```json
+
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -93,7 +94,8 @@ In AWS xonsole open IAM module. Edit the roles. Edit the unathenticated role (e.
         "dynamodb:Scan"
       ],
       "Resource": [
-        "arn:aws:dynamodb:eu-west-1:915133436062:table/LambdaRandom"
+        "arn:aws:dynamodb:eu-west-1:915133436062:table/LambdaRandom",
+        "arn:aws:dynamodb:eu-west-1:915133436062:table/Lotto_*"
       ]
     }
   ]

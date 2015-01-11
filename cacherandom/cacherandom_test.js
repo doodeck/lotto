@@ -7,7 +7,11 @@ This dummy Lambda "execution environment" is very handy
 var cacherandom = require('./cacherandom');
 
 var event = {
-  "rmIds": [ "519", 520 ]
+  // "rmIds": [ "519", 520 ] obsolete
+  "rmObj": {
+      "HotId": "4",
+      "Id": "34"
+  }
 };
 
 var context = {

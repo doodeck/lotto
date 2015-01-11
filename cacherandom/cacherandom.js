@@ -9,10 +9,15 @@ console.log('Loading event');
 
 var removeItems = function(event, context) {
   var removeArray = [];
+  /*
   if (!!event.rmIds)
     removeArray = event.rmIds;
   if (!!event.rmId)
     removeArray.push(event.rmId);
+  */
+  if (!!event.rmObj)
+    removeArray.push(event.rmObj);
+
   if (removeArray.length > 0) {
     dbase.removeItems(removeArray, function(err, data) {
       console.log('removeItem returned: ', err, data);
@@ -25,8 +30,12 @@ var removeItems = function(event, context) {
 
 /* Lambda entry point accepting following parameters:
 {
-  "rmId": "id1",
-  "rmIds": [ "id1", "id2", "id3" ]
+  "rmId": "id1", // obsolete
+  "rmIds": [ "id1", "id2", "id3" ], // obsolete
+    "rmObj": {
+        "HotId": "4",
+        "Id": "34"
+    }
 }
 */
 exports.handler = function(event, context) {

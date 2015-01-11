@@ -6,7 +6,7 @@ var CONFIG = {
   region: 'eu-west-1',
   dynamodb: {
     tableNames: {
-        hotbits: 'LambdaRandom', // 'Lotto_Hotbits', // 'LambdaRandom',
+        hotbits: 'Lotto_Hotbits', // 'LambdaRandom', the same name is dumplicated in frontend, file view1.js
         counters: 'Lotto_Counters'
     },
     types: { // to be obsoleted
@@ -34,29 +34,9 @@ module.exports = global.NODE_CONFIG;
 // database table
 
 /*
-aws --profile lambda dynamodb describe-table --table-name LambdaRandom
+aws --profile lambda dynamodb describe-table --table-name Lotto_Hotbits
 {
     "Table": {
-        "LocalSecondaryIndexes": [
-            {
-                "KeySchema": [
-                    {
-                        "KeyType": "HASH", 
-                        "AttributeName": "Type"
-                    }, 
-                    {
-                        "KeyType": "RANGE", 
-                        "AttributeName": "HotId"
-                    }
-                ], 
-                "IndexSizeBytes": 0, 
-                "ItemCount": 0, 
-                "IndexName": "HotId-index", 
-                "Projection": {
-                    "ProjectionType": "KEYS_ONLY"
-                }
-            }
-        ], 
         "AttributeDefinitions": [
             {
                 "AttributeName": "HotId", 
@@ -65,32 +45,28 @@ aws --profile lambda dynamodb describe-table --table-name LambdaRandom
             {
                 "AttributeName": "Id", 
                 "AttributeType": "N"
-            }, 
-            {
-                "AttributeName": "Type", 
-                "AttributeType": "S"
             }
         ], 
         "ProvisionedThroughput": {
             "NumberOfDecreasesToday": 0, 
-            "WriteCapacityUnits": 5, 
-            "ReadCapacityUnits": 5
+            "WriteCapacityUnits": 4, 
+            "ReadCapacityUnits": 4
         }, 
-        "TableSizeBytes": 0, 
-        "TableName": "LambdaRandom", 
+        "TableSizeBytes": 11, 
+        "TableName": "Lotto_Hotbits", 
         "TableStatus": "ACTIVE", 
         "KeySchema": [
             {
                 "KeyType": "HASH", 
-                "AttributeName": "Type"
+                "AttributeName": "HotId"
             }, 
             {
                 "KeyType": "RANGE", 
                 "AttributeName": "Id"
             }
         ], 
-        "ItemCount": 0, 
-        "CreationDateTime": 1420406213.19
+        "ItemCount": 1, 
+        "CreationDateTime": 1420978007.935
     }
 }
 

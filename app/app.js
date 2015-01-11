@@ -14,7 +14,7 @@ angular.module('myApp', [
   AWSServiceProvider
     .setAWSparams({
       dynamoDB: {
-        TableName: 'LambdaRandom',
+        TableName: 'Lotto_Hotbits', // TODO: unify the location of that table
         region: 'eu-west-1',
       },
       cognito: {

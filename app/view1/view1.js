@@ -25,7 +25,7 @@ angular.module('myApp.view1', ['ngRoute'])
 
 	AWSService.dynamoLambdaRandom().then(function(table) {
 		console.log('describingTable using table: ', table);
-		table.describeTable({TableName: 'LambdaRandom'}, function(err, data) { // TODO: Table name elsewhere
+		table.describeTable({TableName: 'Lotto_Hotbits'}, function(err, data) { // TODO: Table name elsewhere
 			if (err)
 				console.error(err, err.stack); // an error occurred
 			else {
@@ -95,7 +95,7 @@ angular.module('myApp.view1', ['ngRoute'])
               ],
             }
           }, */
-          TableName: 'LambdaRandom',  // TODO: Table name elsewhere
+          TableName: 'Lotto_Hotbits',  // TODO: Table name elsewhere
           Limit: recursionParams.scanLimit
         };
         if (!!recursionParams.LastEvaluatedKey)

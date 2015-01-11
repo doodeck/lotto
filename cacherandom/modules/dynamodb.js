@@ -106,8 +106,8 @@ exports.appendItems = function(params, callback) {
         params.RequestItems[config.dynamodb.tableNames.hotbits].push({
           PutRequest: {
             Item: {
-                Type: {
-                    S: config.dynamodb.types.item
+                HotId: {
+                  N: hotId.toString()
                 },
                 Id: {
                   N: (latestWritten - i).toString()
@@ -118,8 +118,8 @@ exports.appendItems = function(params, callback) {
                 Array: {
                   L: dynamoArray
                 },
-                HotId: {
-                  N: hotId.toString()
+                Time: {
+                  N: new Date().getTime().toString()
                 }
             }
           }
@@ -162,8 +162,8 @@ exports.appendItem = function(params, callback) {
       try {
           var item = {
               Item: {
-                  Type: {
-                      S: config.dynamodb.types.item
+                  HotId: {
+                    N: hotId.toString()
                   },
                   Id: {
                     N: data.value
@@ -174,8 +174,8 @@ exports.appendItem = function(params, callback) {
                   Array: {
                     L: dynamoArray
                   },
-                  HotId: {
-                    N: hotId.toString()
+                  Time: {
+                    N: new Date().getTime().toString()
                   }
               },
               TableName: config.dynamodb.tableNames.hotbits
@@ -195,7 +195,8 @@ exports.appendItem = function(params, callback) {
   });
 }
 
-exports.removeItem = function(Id, callback) {
+// obsolete, do not use until updated to Lambda_Hotbits table
+var __obsolete_removeItem = function(Id, callback) {
   try {
       var item = {
           Key: {
@@ -224,7 +225,7 @@ exports.removeItem = function(Id, callback) {
   }
 }
 
-exports.removeItems = function(IdArray, callback) {
+exports.removeItems = function(ObjArray, callback) {
   try {
     var params = {
       RequestItems: {
@@ -232,15 +233,15 @@ exports.removeItems = function(IdArray, callback) {
     };
     params.RequestItems[config.dynamodb.tableNames.hotbits] = [];
 
-    for (var id in IdArray) {
+    for (var id in ObjArray) {
       params.RequestItems[config.dynamodb.tableNames.hotbits].push({
         DeleteRequest: {
           Key: {
-              Type: {
-                  S: config.dynamodb.types.item
+              HotId: {
+                N: ObjArray[id].HotId.toString()
               },
               Id: {
-                N: IdArray[id].toString()
+                N: ObjArray[id].Id.toString()
               }
           }
         }
