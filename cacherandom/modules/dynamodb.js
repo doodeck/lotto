@@ -28,9 +28,14 @@ var incrementId = function(params, callback) {
           },
           TableName: config.dynamodb.tableNames.counters,
           UpdateExpression: 'SET ' + config.dynamodb.counter.attr +
-          ' = ' + config.dynamodb.counter.attr + ' + :one',
+          ' = ' + config.dynamodb.counter.attr + ' + :one' +
+          ' , ' + '#t' + ' = :time',
+          ExpressionAttributeNames: {
+            "#t" : config.dynamodb.counter.time
+          },
           ExpressionAttributeValues: {
-              ":one" : { N: increment }
+              ":one" : { N: increment },
+              ":time" : { N: new Date().getTime().toString() }
           },
           ReturnValues: "UPDATED_NEW"
       };
@@ -117,10 +122,10 @@ exports.appendItems = function(params, callback) {
                 },
                 Array: {
                   L: dynamoArray
-                },
+                } /* different table, without repetitions,
                 Time: {
                   N: new Date().getTime().toString()
-                }
+                }*/
             }
           }
         });
@@ -173,10 +178,10 @@ exports.appendItem = function(params, callback) {
                   },
                   Array: {
                     L: dynamoArray
-                  },
+                  } /* different table, without repetitions,
                   Time: {
                     N: new Date().getTime().toString()
-                  }
+                  }*/
               },
               TableName: config.dynamodb.tableNames.hotbits
           };

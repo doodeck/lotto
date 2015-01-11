@@ -9,15 +9,18 @@ var CONFIG = {
         hotbits: 'Lotto_Hotbits', // 'LambdaRandom', the same name is dumplicated in frontend, file view1.js
         counters: 'Lotto_Counters'
     },
-    types: { // to be obsoleted
+    types: {
       counter: 'Counter',
-      item: 'Item',
-      hotbitsCounter: 'Hotbits'
+      item: 'Item', // to be obsoleted
+      hotbitsCounter: 'Hotbits',
+      totalCnt: 'TotalCounter',
+      totalHot: 'TotalHotbits'
     },
     counter: {
       type: 'Counter', // or 'Hotbits'
       id: '1',
-      attr: 'Val'
+      attr: 'Val',
+      time: 'Time'
     },
     blockLen: 16 // hotbit numbers in a single DB item
   },
