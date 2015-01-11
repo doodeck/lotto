@@ -83,14 +83,14 @@ angular.module('myApp.view1', ['ngRoute'])
     var recursiveFeed = function(recursionParams) {
       AWSService.dynamoLambdaRandom().then(function(table) {
         var params = {
-          KeyConditions: {
+          /* back to scan() ... KeyConditions: {
             Type: {
               ComparisonOperator: 'EQ',
               AttributeValueList: [
                 { S: 'Item' } // TODO: ../cacherandom/config.js
               ],
             }
-          },
+          }, */
           TableName: 'LambdaRandom',  // TODO: Table name elsewhere
           Limit: recursionParams.scanLimit
         };
@@ -98,7 +98,7 @@ angular.module('myApp.view1', ['ngRoute'])
           params.ExclusiveStartKey = recursionParams.LastEvaluatedKey;
 
         console.log('scan using params: ', params);
-        table.query(params, function(err, data) {
+        table.scan /*query*/(params, function(err, data) {
           if (err)
             console.log(err, err.stack); // an error occurred
           else {
