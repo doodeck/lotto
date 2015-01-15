@@ -7,10 +7,6 @@ An instance of this application is deployed here:
 
 https://lotto.firebaseapp.com/
 
-as well as here:
-
-https://dl.dropboxusercontent.com/u/253106669/lotto/index.html
-
 Only static Firebase app hosting functionality is used, the FB database is not involved.
 
 ## AWS Free Tier
