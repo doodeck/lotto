@@ -50,7 +50,7 @@ exports.handler = function(event, context) {
           var hotId = data.value;
 
           dbase.appendItems({ hotId: hotId, array: bitsArray }, function(err, data) {
-            console.log('db.appendItem returned: ', data);
+            console.log('db.appendItems returned: ', data);
             removeItems(event, context);
           });
         } else {

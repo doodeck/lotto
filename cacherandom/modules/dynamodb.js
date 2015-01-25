@@ -140,7 +140,19 @@ exports.appendItems = function(params, callback) {
               callback(err, { status: 'batchWriteItem failed' });
           } else {
               console.log('batchWriteItem ok: ', JSON.stringify(data));           // successful response
-              callback(undefined, data);
+              incrementId({ typeName: config.dynamodb.types.totalHot }, function(err, data) {
+                if (!err) {
+                  incrementId({ typeName: config.dynamodb.types.totalCnt, increment: recCnt }, function(err, data) {
+                    if (!err) {
+                      callback(undefined, data);
+                    } else {
+                      callback(err, { status: 'incrementId(totalCnt) failed' });
+                    }
+                  });
+                } else {
+                  callback(err, { status: 'incrementId(totalHot) failed' });
+                }
+              });
           }
         });
       } catch(e) {
@@ -153,7 +165,7 @@ exports.appendItems = function(params, callback) {
   });
 }
 
-exports.appendItem = function(params, callback) {
+var __obsolete_appendItem = function(params, callback) {
   var array = params.array;
   var hotId = params.hotId;
 
