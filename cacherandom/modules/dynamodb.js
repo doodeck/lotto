@@ -244,6 +244,7 @@ var __obsolete_removeItem = function(Id, callback) {
 
 exports.removeItems = function(ObjArray, callback) {
   try {
+    var idsCount = 0;
     var params = {
       RequestItems: {
       }
@@ -263,6 +264,7 @@ exports.removeItems = function(ObjArray, callback) {
           }
         }
       });
+      idsCount++;
     }
     console.log('batchWriteItem: ', JSON.stringify(params));
 
@@ -274,7 +276,14 @@ exports.removeItems = function(ObjArray, callback) {
           callback(err, { status: 'batchWriteItem failed' });
       } else {
           console.log('batchWriteItem ok: ', JSON.stringify(data));           // successful response
-          callback(undefined, data);
+          // TODO: decrement TotalHot counter in a similar manner here: additional table (or complicated indexing/query) needed
+          incrementId({ typeName: config.dynamodb.types.totalCnt, increment: -idsCount }, function(err, data) {
+            if (!err) {
+              callback(undefined, data);
+            } else {
+              callback(err, { status: 'incrementId(incrementId) failed' });
+            }
+          });
       }
     });
 
