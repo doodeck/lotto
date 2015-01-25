@@ -103,14 +103,17 @@ aws --profile lambda dynamodb describe-table --table-name Lotto_Counters
 
 aws --profile lambda dynamodb scan --table-name Lotto_Counters
 {
-    "Count": 2, 
+    "Count": 4, 
     "Items": [
         {
             "Type": {
                 "S": "Hotbits"
             }, 
             "Val": {
-                "N": "2"
+                "N": "94"
+            }, 
+            "Time": {
+                "N": "1422172150437"
             }
         }, 
         {
@@ -118,12 +121,38 @@ aws --profile lambda dynamodb scan --table-name Lotto_Counters
                 "S": "Counter"
             }, 
             "Val": {
-                "N": "17"
+                "N": "1489"
+            }, 
+            "Time": {
+                "N": "1422172150573"
+            }
+        }, 
+        {
+            "Type": {
+                "S": "TotalHotbits"
+            }, 
+            "Val": {
+                "N": "2"
+            }, 
+            "Time": {
+                "N": "1422172150872"
+            }
+        }, 
+        {
+            "Type": {
+                "S": "TotalCounter"
+            }, 
+            "Val": {
+                "N": "33"
+            }, 
+            "Time": {
+                "N": "1422172151017"
             }
         }
     ], 
-    "ScannedCount": 2, 
+    "ScannedCount": 4, 
     "ConsumedCapacity": null
 }
+
 
 */
