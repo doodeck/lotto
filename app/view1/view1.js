@@ -9,7 +9,25 @@ angular.module('myApp.view1', ['ngRoute'])
   });
 }])
 
-.controller('View1Ctrl', ['$scope', '$http', 'AWSService', function($scope, $http, AWSService) {
+.factory('LastEvalKey', function($cacheFactory) {
+  var lastKeyCacheKey = 'lastKeyCache8347ryfhekj';
+  var lastKeyCache = $cacheFactory('lastkey');
+  var serviceInstance = {
+    getLast: function() {
+      var key = lastKeyCache.get(lastKeyCacheKey);
+      console.log('retrieved cached lastKey: ', key);
+      return key;
+    },
+    setLast: function(key) {
+      lastKeyCache.put(lastKeyCacheKey, key);
+      console.log('cached lastKey: ', key);
+    }
+  };
+
+  return serviceInstance;
+})
+
+.controller('View1Ctrl', ['$scope', '$http', 'AWSService', 'LastEvalKey', function($scope, $http, AWSService, LastEvalKey) {
 	$scope.pickCounts = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 50 ];
 	$scope.currentCount = $scope.pickCounts[0];
   $scope.viewName = "view 1";
@@ -146,6 +164,9 @@ angular.module('myApp.view1', ['ngRoute'])
                 recursiveFeed(recursionParams);                
               }
             } else {
+              if (!!data.LastEvaluatedKey)
+                LastEvalKey.setLast(data.LastEvaluatedKey);
+
               var recursiveDbParams = {
                 arrayIds: recursionParams.dbRecordsConsumedIds,
                 arrayObjs: recursionParams.dbRecordsConsumedObjs,
@@ -172,6 +193,10 @@ angular.module('myApp.view1', ['ngRoute'])
       scanLimit: 1
     };
     
+    var lastKey = LastEvalKey.getLast();
+    if (!!lastKey)
+      recursionParams.LastEvaluatedKey = lastKey
+
     recursiveFeed(recursionParams);
 	}
 }]);
