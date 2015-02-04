@@ -29,7 +29,9 @@ angular.module('myApp.view1', ['ngRoute'])
 
 .controller('View1Ctrl', ['$scope', '$http', 'AWSService', 'LastEvalKey', function($scope, $http, AWSService, LastEvalKey) {
 	$scope.pickCounts = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 50 ];
-	$scope.currentCount = $scope.pickCounts[0];
+  $scope.currentCount = $scope.pickCounts[0];
+  $scope.countries = [ 'Germany', 'Poland'];
+  $scope.currentCountry = $scope.countries[1]; // must point to Poland
   $scope.viewName = "view 1";
   $scope.progress = {
     max: 100, // it cannot be changed dynamically
@@ -56,6 +58,11 @@ angular.module('myApp.view1', ['ngRoute'])
 		// console.log('pickCount: ', count);
 		$scope.currentCount = count;
 	}
+
+  $scope.pickCountry = function(country) {
+    // console.log('pickCount: ', count);
+    $scope.currentCountry = country;
+  }
 
 	$scope.pickTickets = function() {
 		console.log('picking tickets: ', $scope.currentCount);

@@ -4,12 +4,22 @@
   <div class="jumbotron">
     <div>
       <!-- Single button -->
-      <div class="btn-group" dropdown is-open="status.isopen">
+      Pick
+      <div class="btn-group" dropdown> <!-- is-open="status.isopen" -->
         <button type="button" class="btn btn-primary dropdown-toggle btn-lg" dropdown-toggle ng-disabled="disabled">
           {{currentCount}}&nbsp;<span class="caret"></span>
         </button>
         <ul class="dropdown-menu" role="menu">
           <li ng-repeat="count in pickCounts"><a ng-click="pickCount(count)">{{count}}</a></li>
+        </ul>
+      </div>
+        in the country
+      <div class="btn-group" dropdown> <!-- is-open="status.isopen" -->
+        <button type="button" class="btn btn-primary dropdown-toggle btn-lg" dropdown-toggle ng-disabled="disabled">
+          {{currentCountry}}&nbsp;<span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu">
+          <li ng-repeat="country in countries"><a ng-click="pickCountry(country)">{{country}}</a></li>
         </ul>
       </div>
       <p>
