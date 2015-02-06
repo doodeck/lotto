@@ -3,12 +3,14 @@
 // Declare app level module which depends on views, and components
 angular.module('myApp', [
   'ngRoute',
+  'ngResource',
   'ui.bootstrap',
   'myApp.view1',
   'myApp.view2',
   'myApp.version',
   'myApp.credentials',
-  'myApp.ticketing'
+  'myApp.ticketing',
+  'myApp.countries'
 ])
 .config(function(AWSServiceProvider) { // is providing the .provider('AWSService', ...
   AWSServiceProvider

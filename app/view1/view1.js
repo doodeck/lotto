@@ -27,10 +27,11 @@ angular.module('myApp.view1', ['ngRoute'])
   return serviceInstance;
 })
 
-.controller('View1Ctrl', ['$scope', '$http', 'AWSService', 'LastEvalKey', function($scope, $http, AWSService, LastEvalKey) {
+.controller('View1Ctrl', ['$scope', '$http', 'AWSService', 'LastEvalKey', 'Country',
+                  function($scope,   $http,   AWSService,   LastEvalKey,   Country) {
 	$scope.pickCounts = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 50 ];
   $scope.currentCount = $scope.pickCounts[0];
-  $scope.countries = [ 'Germany', 'Poland'];
+  $scope.countries = Country.query();
   $scope.currentCountry = $scope.countries[1]; // must point to Poland
   $scope.viewName = "view 1";
   $scope.progress = {

@@ -19,7 +19,7 @@
           {{currentCountry}}&nbsp;<span class="caret"></span>
         </button>
         <ul class="dropdown-menu" role="menu">
-          <li ng-repeat="country in countries"><a ng-click="pickCountry(country)">{{country}}</a></li>
+          <li ng-repeat="country in countries"><a ng-click="pickCountry(country.id)">{{country.name}}</a></li>
         </ul>
       </div>
       <p>

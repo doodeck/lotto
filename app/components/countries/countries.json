@@ -24,12 +24,12 @@
       {
         "name": "Lotto",
         "numbers": 6,
-        "numbersPool": 49        
+        "numbersPool": 49
       },
       {
         "name": "Mini Lotto",
         "numbers": 5,
-        "numbersPool": 42        
+        "numbersPool": 42
       }
     ]
   }
