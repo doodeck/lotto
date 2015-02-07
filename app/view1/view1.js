@@ -60,9 +60,9 @@ angular.module('myApp.view1', ['ngRoute'])
 		$scope.currentCount = count;
 	}
 
-  $scope.pickCountry = function(country) {
+  $scope.pickCountry = function(index) {
     // console.log('pickCount: ', count);
-    $scope.currentCountry = country;
+    $scope.currentCountry = $scope.countries[index].name;
   }
 
 	$scope.pickTickets = function() {
