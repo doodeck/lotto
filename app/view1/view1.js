@@ -32,7 +32,8 @@ angular.module('myApp.view1', ['ngRoute'])
 	$scope.pickCounts = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 50 ];
   $scope.currentCount = $scope.pickCounts[0];
   $scope.countries = Country.query();
-  $scope.currentCountry = $scope.countries[1]; // must point to Poland
+  $scope.currentCountryIndex = 1;  // must point to Poland
+  $scope.currentCountry = $scope.countries[$scope.currentCountryIndex];
   $scope.viewName = "view 1";
   $scope.progress = {
     max: 100, // it cannot be changed dynamically
@@ -62,7 +63,13 @@ angular.module('myApp.view1', ['ngRoute'])
 
   $scope.pickCountry = function(index) {
     // console.log('pickCount: ', count);
+    $scope.currentCountryIndex = index;
     $scope.currentCountry = $scope.countries[index].name;
+  }
+
+  $scope.pickGame = function(index) {
+    console.log('picking game: ', index);
+    $scope.currentGameIndex = index;
   }
 
 	$scope.pickTickets = function() {
