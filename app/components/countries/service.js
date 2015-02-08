@@ -7,7 +7,7 @@
 angular.module('myApp.countries', ['ngResource'])
 .factory('Country', ['$resource',
   function($resource){
-    return $resource('components/countries/:countryId.json', {}, {
+    return $resource('components/countries/json/:countryId.json', {}, {
       query: {method:'GET', params:{countryId:'countries'}, isArray:true}
     });
   }]);
