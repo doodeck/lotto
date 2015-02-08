@@ -1,36 +1,10 @@
 [
   {
     "id": "de",
-    "name": "Germany",
-    "games": [
-      {
-        "name": "Eurojackpot",
-        "numbers": 5,
-        "numbersPool": 50,
-        "extras": 2,
-        "extrasPool": 10
-      },
-      {
-        "name": "Lotto 6/49",
-        "numbers": 6,
-        "numbersPool": 49
-      }
-    ]
+    "name": "Germany"
   },
   {
     "id": "pl",
-    "name": "Poland",
-    "games": [
-      {
-        "name": "Lotto",
-        "numbers": 6,
-        "numbersPool": 49
-      },
-      {
-        "name": "Mini Lotto",
-        "numbers": 5,
-        "numbersPool": 42
-      }
-    ]
+    "name": "Poland"
   }
 ]

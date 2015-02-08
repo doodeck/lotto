@@ -1,0 +1,19 @@
+{
+  "games": [
+    {
+      "name": "Lotto",
+      "numbers": 6,
+      "numbersPool": 49
+    },
+    {
+      "name": "Mini Lotto",
+      "numbers": 5,
+      "numbersPool": 42
+    },
+    {
+      "name": "Multi Multi",
+      "numbers": 10,
+      "numbersPool": 80
+    }
+  ]
+}

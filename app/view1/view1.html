@@ -16,7 +16,7 @@
         in the country
       <div class="btn-group" dropdown> <!-- is-open="status.isopen" -->
         <button type="button" class="btn btn-primary dropdown-toggle btn-lg" dropdown-toggle ng-disabled="disabled">
-          {{currentCountry}}&nbsp;<span class="caret"></span>
+          {{currentCountry.name}}&nbsp;<span class="caret"></span>
         </button>
         <ul class="dropdown-menu" role="menu">
           <li ng-repeat="country in countries"><a ng-click="pickCountry($index)">{{country.name}}</a></li>
@@ -26,10 +26,10 @@
       in the game
       <div class="btn-group" dropdown> <!-- is-open="status.isopen" -->
         <button type="button" class="btn btn-primary dropdown-toggle btn-lg" dropdown-toggle ng-disabled="disabled">
-          {{countries[currentCountryIndex].games[currentGameIndex].name}}&nbsp;<span class="caret"></span>
+          {{currentCountryJson.games[currentGameIndex].name}}&nbsp;<span class="caret"></span>
         </button>
         <ul class="dropdown-menu" role="menu">
-          <li ng-repeat="game in countries[currentCountryIndex].games"><a ng-click="pickGame($index)">{{game.name}}</a></li>
+          <li ng-repeat="game in currentCountryJson.games"><a ng-click="pickGame($index)">{{game.name}}</a></li>
         </ul>
       </div>
       </p>
