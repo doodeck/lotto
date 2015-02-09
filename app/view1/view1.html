@@ -37,7 +37,7 @@
       </div>
       <p>
       <div class="btn-group" dropdown> <!-- is-open="status.isopen" -->
-        <button type="button" class="btn btn-primary dropdown-toggle btn-lg" dropdown-toggle ng-disabled="disabled">
+        <button type="button" class="btn btn-primary dropdown-toggle btn-lg" dropdown-toggle ng-disabled="disabled || currentCountryJson.games[currentGameIndex].disabled">
           {{currentNumber}}&nbsp;<span class="caret"></span>
         </button>
         <ul class="dropdown-menu" role="menu">
@@ -46,7 +46,7 @@
       </div>
       numbers, the highest of which is
       <div class="btn-group" dropdown> <!-- is-open="status.isopen" -->
-        <button type="button" class="btn btn-primary dropdown-toggle btn-lg" dropdown-toggle ng-disabled="disabled">
+        <button type="button" class="btn btn-primary dropdown-toggle btn-lg" dropdown-toggle ng-disabled="disabled || currentCountryJson.games[currentGameIndex].disabled">
           {{currentHighNumber}}&nbsp;<span class="caret"></span>
         </button>
         <ul class="dropdown-menu" role="menu">
@@ -56,7 +56,7 @@
       </p>
       <p>
       <div class="btn-group" dropdown> <!-- is-open="status.isopen" -->
-        <button type="button" class="btn btn-primary dropdown-toggle btn-lg" dropdown-toggle ng-disabled="disabled">
+        <button type="button" class="btn btn-primary dropdown-toggle btn-lg" dropdown-toggle ng-disabled="disabled || currentCountryJson.games[currentGameIndex].disabled">
           {{currentExtra}}&nbsp;<span class="caret"></span>
         </button>
         <ul class="dropdown-menu" role="menu">
@@ -65,7 +65,7 @@
       </div>
       extras, the highest of which is
       <div class="btn-group" dropdown> <!-- is-open="status.isopen" -->
-        <button type="button" class="btn btn-primary dropdown-toggle btn-lg" dropdown-toggle ng-disabled="disabled">
+        <button type="button" class="btn btn-primary dropdown-toggle btn-lg" dropdown-toggle ng-disabled="disabled || currentCountryJson.games[currentGameIndex].disabled">
           {{currentHighExtra}}&nbsp;<span class="caret"></span>
         </button>
         <ul class="dropdown-menu" role="menu">

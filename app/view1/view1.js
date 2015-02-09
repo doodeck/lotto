@@ -79,6 +79,7 @@ angular.module('myApp.view1', ['ngRoute'])
     $scope.currentCountry = $scope.countries[index];
     $scope.currentCountryJson = Country.get({countryId: $scope.countries[index].id}, function(country) {
       console.log('Country.get callback: ', country);
+      $scope.pickGame(0);
     });
     console.log('$scope.currentCountryJson: ', $scope.currentCountryJson);
   }
@@ -86,6 +87,12 @@ angular.module('myApp.view1', ['ngRoute'])
   $scope.pickGame = function(index) {
     console.log('picking game: ', index);
     $scope.currentGameIndex = index;
+    $scope.pickNumber($scope.currentCountryJson.games[$scope.currentGameIndex].numbers);
+  }
+
+  $scope.pickNumber = function(number) {
+    console.log('pickNumber');
+    $scope.currentNumber = number;
   }
 
 	$scope.pickTickets = function() {

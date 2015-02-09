@@ -5,12 +5,14 @@
       "numbers": 5,
       "numbersPool": 50,
       "extras": 2,
-      "extrasPool": 10
+      "extrasPool": 10,
+      "disabled": true
     },
     {
       "name": "Lotto 6/49",
       "numbers": 6,
-      "numbersPool": 49
+      "numbersPool": 49,
+      "disabled": true
     }
   ]
 }

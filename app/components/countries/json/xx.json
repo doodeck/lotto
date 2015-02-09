@@ -1,0 +1,10 @@
+{
+  "games": [
+    {
+      "name": "Any game",
+      "numbers": 6,
+      "numbersPool": 49,
+      "disabled": false
+    }
+  ]
+}

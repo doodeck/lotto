@@ -3,17 +3,20 @@
     {
       "name": "Lotto",
       "numbers": 6,
-      "numbersPool": 49
+      "numbersPool": 49,
+      "disabled": true
     },
     {
       "name": "Mini Lotto",
       "numbers": 5,
-      "numbersPool": 42
+      "numbersPool": 42,
+      "disabled": true
     },
     {
       "name": "Multi Multi",
       "numbers": 10,
-      "numbersPool": 80
+      "numbersPool": 80,
+      "disabled": true
     }
   ]
 }
