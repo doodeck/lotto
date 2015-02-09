@@ -3,6 +3,7 @@
 <div class="container">
   <div class="jumbotron">
     <div>
+      <div>
       <!-- Single button -->
       Pick
       <div class="btn-group" dropdown> <!-- is-open="status.isopen" -->
@@ -22,7 +23,8 @@
           <li ng-repeat="country in countries"><a ng-click="pickCountry($index)">{{country.name}}</a></li>
         </ul>
       </div>
-      <p>
+      </div>
+      <div>
       in the game
       <div class="btn-group" dropdown> <!-- is-open="status.isopen" -->
         <button type="button" class="btn btn-primary dropdown-toggle btn-lg" dropdown-toggle ng-disabled="disabled">
@@ -30,6 +32,44 @@
         </button>
         <ul class="dropdown-menu" role="menu">
           <li ng-repeat="game in currentCountryJson.games"><a ng-click="pickGame($index)">{{game.name}}</a></li>
+        </ul>
+      </div>
+      </div>
+      <p>
+      <div class="btn-group" dropdown> <!-- is-open="status.isopen" -->
+        <button type="button" class="btn btn-primary dropdown-toggle btn-lg" dropdown-toggle ng-disabled="disabled">
+          {{currentNumber}}&nbsp;<span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu">
+          <li ng-repeat="number in pickNumbers"><a ng-click="pickNumber(number)">{{number}}</a></li>
+        </ul>
+      </div>
+      numbers, the highest of which is
+      <div class="btn-group" dropdown> <!-- is-open="status.isopen" -->
+        <button type="button" class="btn btn-primary dropdown-toggle btn-lg" dropdown-toggle ng-disabled="disabled">
+          {{currentHighNumber}}&nbsp;<span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu">
+          <li ng-repeat="number in pickHighNumbers"><a ng-click="pickHighNumber(number)">{{number}}</a></li>
+        </ul>
+      </div>
+      </p>
+      <p>
+      <div class="btn-group" dropdown> <!-- is-open="status.isopen" -->
+        <button type="button" class="btn btn-primary dropdown-toggle btn-lg" dropdown-toggle ng-disabled="disabled">
+          {{currentExtra}}&nbsp;<span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu">
+          <li ng-repeat="extra in pickExtras"><a ng-click="pickExtra(extra)">{{extra}}</a></li>
+        </ul>
+      </div>
+      extras, the highest of which is
+      <div class="btn-group" dropdown> <!-- is-open="status.isopen" -->
+        <button type="button" class="btn btn-primary dropdown-toggle btn-lg" dropdown-toggle ng-disabled="disabled">
+          {{currentHighExtra}}&nbsp;<span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu">
+          <li ng-repeat="extra in pickHighExtras"><a ng-click="pickHighExtra(extra)">{{extra}}</a></li>
         </ul>
       </div>
       </p>
