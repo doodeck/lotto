@@ -38,7 +38,7 @@
       <p>
       <div class="btn-group" dropdown> <!-- is-open="status.isopen" -->
         <button type="button" class="btn btn-primary dropdown-toggle btn-lg" dropdown-toggle ng-disabled="disabled || currentCountryJson.games[currentGameIndex].disabled">
-          {{currentNumber}}&nbsp;<span class="caret"></span>
+          {{currentCountryJson.games[currentGameIndex].numbers}}&nbsp;<span class="caret"></span>
         </button>
         <ul class="dropdown-menu" role="menu">
           <li ng-repeat="number in pickNumbers"><a ng-click="pickNumber(number)">{{number}}</a></li>
@@ -47,7 +47,7 @@
       numbers, the highest of which is
       <div class="btn-group" dropdown> <!-- is-open="status.isopen" -->
         <button type="button" class="btn btn-primary dropdown-toggle btn-lg" dropdown-toggle ng-disabled="disabled || currentCountryJson.games[currentGameIndex].disabled">
-          {{currentHighNumber}}&nbsp;<span class="caret"></span>
+          {{currentCountryJson.games[currentGameIndex].numbersPool}}&nbsp;<span class="caret"></span>
         </button>
         <ul class="dropdown-menu" role="menu">
           <li ng-repeat="number in pickHighNumbers"><a ng-click="pickHighNumber(number)">{{number}}</a></li>
@@ -57,7 +57,7 @@
       <p>
       <div class="btn-group" dropdown> <!-- is-open="status.isopen" -->
         <button type="button" class="btn btn-primary dropdown-toggle btn-lg" dropdown-toggle ng-disabled="disabled || currentCountryJson.games[currentGameIndex].disabled">
-          {{currentExtra}}&nbsp;<span class="caret"></span>
+          {{currentCountryJson.games[currentGameIndex].extras}}&nbsp;<span class="caret"></span>
         </button>
         <ul class="dropdown-menu" role="menu">
           <li ng-repeat="extra in pickExtras"><a ng-click="pickExtra(extra)">{{extra}}</a></li>
@@ -66,7 +66,7 @@
       extras, the highest of which is
       <div class="btn-group" dropdown> <!-- is-open="status.isopen" -->
         <button type="button" class="btn btn-primary dropdown-toggle btn-lg" dropdown-toggle ng-disabled="disabled || currentCountryJson.games[currentGameIndex].disabled">
-          {{currentHighExtra}}&nbsp;<span class="caret"></span>
+          {{currentCountryJson.games[currentGameIndex].extrasPool}}&nbsp;<span class="caret"></span>
         </button>
         <ul class="dropdown-menu" role="menu">
           <li ng-repeat="extra in pickHighExtras"><a ng-click="pickHighExtra(extra)">{{extra}}</a></li>
