@@ -44,7 +44,8 @@ angular.module('myApp.view1', ['ngRoute'])
   // $scope.currentHighExtra = $scope.pickHighExtras[0];
 
   $scope.countries = Country.query();
-  $scope.currentCountry = $scope.countries[1];
+  // $scope.currentCountry = $scope.countries[1]; ... see below
+  // not so quickly ..., async $scope.pickCountry(0);
 
   $scope.viewName = "view 1";
   $scope.progress = {
@@ -112,7 +113,11 @@ angular.module('myApp.view1', ['ngRoute'])
 	$scope.pickTickets = function() {
 		console.log('picking tickets: ', $scope.currentCount);
 
-		var tickets = new Tickets($scope.currentCount /*numTickets*/, 6 /*numNumbers*/, 49 /*highestNumber*/, 0 /*numExtras*/, 10/*highestExtra*/);
+		var tickets = new Tickets($scope.currentCount /*numTickets*/,
+      $scope.currentCountryJson.games[$scope.currentGameIndex].numbers /*numNumbers*/,
+      $scope.currentCountryJson.games[$scope.currentGameIndex].numbersPool /*highestNumber*/,
+      $scope.currentCountryJson.games[$scope.currentGameIndex].extras /*numExtras*/,
+      $scope.currentCountryJson.games[$scope.currentGameIndex].extrasPool /*highestExtra*/);
 
     var howManyNeededMax = tickets.howManyNeeded();
 
