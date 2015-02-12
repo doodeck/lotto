@@ -44,8 +44,9 @@ angular.module('myApp.view1', ['ngRoute'])
   // $scope.currentHighExtra = $scope.pickHighExtras[0];
 
   $scope.countries = Country.query();
+  console.log('Here are my countries: ', $scope.countries);
   // $scope.currentCountry = $scope.countries[1]; ... see below
-  // not so quickly ..., async $scope.pickCountry(0);
+  // not so quickly ..., see below $scope.pickCountry(0);
 
   $scope.viewName = "view 1";
   $scope.progress = {
@@ -84,6 +85,11 @@ angular.module('myApp.view1', ['ngRoute'])
     });
     console.log('$scope.currentCountryJson: ', $scope.currentCountryJson);
   }
+
+  $scope.countries.$promise.then(function(hgw) {
+    console.log('hgw: ', hgw);
+    $scope.pickCountry(0);
+  });
 
   $scope.pickGame = function(index) {
     console.log('picking game: ', index);
