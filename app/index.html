@@ -16,10 +16,29 @@
   <script src="bower_components/html5-boilerplate/js/vendor/modernizr-2.6.2.min.js"></script>
 </head>
 <body>
-  <ul class="menu">
-    <li><a href="#/view1">view1</a></li>
-    <li><a href="#/view2">view2</a></li>
-  </ul>
+  <nav class="navbar navbar-default" role="navigation" ng-controller="NavigationCtrl">
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" ng-click="isCollapsed = !isCollapsed">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">Lotto</a>
+      </div>
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" collapse="!isCollapsed" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li ng-repeat="navitem in navigation" class="{{navitem.active}}"><a href="{{navitem.route}}">{{navitem.description}} <span class="{{navitem.srClass}}">{{navitem.srText}}</span></a></li>
+          <!-- TODO: take care of screen reader <span class="sr-only">(current)</span> -->
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+    <!-- <p>{{navigation | json}}</p> -->
+  </nav>
 
   <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
@@ -39,6 +58,7 @@
   <!-- missing Lambda SDK <script src="bower_components/aws-sdk/dist/aws-sdk.js"></script> -->
   <script src="components/aws-sdk/aws-sdk-lambda.js"></script>
   <script src="app.js"></script>
+  <script src="components/navigation/navigation.js"></script>
   <script src="view1/view1.js"></script>
   <script src="view2/view2.js"></script>
   <script src="components/version/version.js"></script>
