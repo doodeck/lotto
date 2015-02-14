@@ -4,4 +4,4 @@
 
 angular.module('myApp.ticketing', [])
 
-.value('version', '0.1');
+.value('version', '0.0.2');
