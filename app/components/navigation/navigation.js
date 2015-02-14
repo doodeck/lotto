@@ -10,7 +10,7 @@ angular.module('myApp.navigation', [])
 			{
 				pattern: '/view1',
 				route: '#/view1',
-				description: 'View 1',
+				description: 'Pick',
 				active: "", // set automatically in the event handler
 				srClass: "", // ~
 				srText: "", // ~
@@ -18,7 +18,7 @@ angular.module('myApp.navigation', [])
 			{
 				pattern: '/view2',
 				route: '#/view2',
-				description: 'View 2',
+				description: 'Statistics',
 				active: "",
 				srClass: "", // ~
 				srText: "" // ~
