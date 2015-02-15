@@ -18,7 +18,7 @@ angular.module('myApp.navigation', [])
 			{
 				pattern: '/view2',
 				route: '#/view2',
-				description: 'Statistics',
+				description: 'About',
 				active: "",
 				srClass: "", // ~
 				srText: "" // ~
