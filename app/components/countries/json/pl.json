@@ -17,6 +17,14 @@
       "numbers": 10,
       "numbersPool": 80,
       "disabled": true
+    },
+    {
+      "name": "Ekstra Pensja",
+      "numbers": 5,
+      "numbersPool": 35,
+      "extras": 1,
+      "extrasPool": 4,
+      "disabled": true
     }
   ]
 }
