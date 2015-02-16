@@ -47,7 +47,7 @@
   <div ng-view></div>
 
   <div ng-controller="AlertCtrl">
-    <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+    <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)"> <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>&nbsp;{{alert.msg}}</alert>
     <!-- <button class='btn btn-default' ng-click="addAlert()">Add Alert</button> -->
   </div>
 
