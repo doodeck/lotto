@@ -27,8 +27,8 @@ angular.module('myApp.view1', ['ngRoute'])
   return serviceInstance;
 })
 
-.controller('View1Ctrl', ['$scope', '$http', 'AWSService', 'LastEvalKey', 'Country',
-                  function($scope,   $http,   AWSService,   LastEvalKey,   Country) {
+.controller('View1Ctrl', ['$scope', '$http', 'AWSService', 'LastEvalKey', 'Country', 'myConfig',
+                  function($scope,   $http,   AWSService,   LastEvalKey,   Country,   myConfig) {
 	$scope.pickCounts = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 50 ];
   $scope.currentCount = $scope.pickCounts[0];
   $scope.pickNumbers = [1,2,3,4,5,6,7,8,9,10,12,15,16,17,18];
@@ -61,7 +61,7 @@ angular.module('myApp.view1', ['ngRoute'])
 
 	AWSService.dynamoLambdaRandom().then(function(table) {
 		console.log('describingTable using table: ', table);
-		table.describeTable({TableName: 'Lotto_Hotbits'}, function(err, data) { // TODO: Table name elsewhere
+		table.describeTable({TableName: myConfig.TableName}, function(err, data) {
 			if (err)
 				console.error(err, err.stack); // an error occurred
 			else {
@@ -140,7 +140,7 @@ angular.module('myApp.view1', ['ngRoute'])
       if (recursiveDbParams.currentIndex < recursiveDbParams.arrayIds.length) {
         AWSService.invokeLambdaRandom().then(function(lambda) {
           var params = {
-            FunctionName: 'cacherandom', // TODO: function name from a config
+            FunctionName: myConfig.FunctionName, // TODO: function name from a config
             InvokeArgs: '{ ' +
                            '"rmId": ' + recursiveDbParams.arrayIds[recursiveDbParams.currentIndex].toString() + ', ' +
                            '"rmObj": ' +
@@ -176,7 +176,7 @@ angular.module('myApp.view1', ['ngRoute'])
               ],
             }
           }, */
-          TableName: 'Lotto_Hotbits',  // TODO: Table name elsewhere
+          TableName: myConfig.TableName,
           Limit: recursionParams.scanLimit
         };
         if (!!recursionParams.LastEvaluatedKey)

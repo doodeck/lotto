@@ -11,14 +11,15 @@ angular.module('myApp', [
   'myApp.version',
   'myApp.credentials',
   'myApp.ticketing',
-  'myApp.countries'
+  'myApp.countries',
+  'myApp.config'
 ])
-.config(function(AWSServiceProvider) { // is providing the .provider('AWSService', ...
+.config(function(AWSServiceProvider, myConfig) { // is providing the .provider('AWSService', ...
   AWSServiceProvider
     .setAWSparams({
       dynamoDB: {
-        TableName: 'Lotto_Hotbits', // TODO: unify the location of that table
-        region: 'eu-west-1',
+        TableName: myConfig.TableName, // 'Lotto_Hotbits',
+        region: myConfig.region // 'eu-west-1',
       },
       cognito: {
         AccountId: '915133436062',
@@ -26,7 +27,7 @@ angular.module('myApp', [
         RoleArn: 'arn:aws:iam::915133436062:role/Cognito_LambdaRandomUnauth_DefaultRole'
       },
       lambda: {
-        region: 'eu-west-1'
+        region: myConfig.region // 'eu-west-1'
       }
   });
 })
