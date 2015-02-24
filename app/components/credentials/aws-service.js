@@ -10,8 +10,8 @@ angular.module('myApp.credentials', [])
 	self.params = undefined;
 
 	self.setAWSparams = function(params) {
-		console.log('setting setAWSparams:', params);
 		self.params = params;
+		console.log('setting setAWSparams:', self.params);
 	}
 
 	self.$get = function($q, $cacheFactory) {
