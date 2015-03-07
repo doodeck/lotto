@@ -27,8 +27,10 @@ angular.module('myApp.view1', ['ngRoute'])
   return serviceInstance;
 })
 
-.controller('View1Ctrl', ['$scope', '$http', 'AWSService', 'LastEvalKey', 'Country', 'myConfig',
-                  function($scope,   $http,   AWSService,   LastEvalKey,   Country,   myConfig) {
+.controller('View1Ctrl', ['$scope', '$http', '$timeout',
+                          'AWSService', 'LastEvalKey', 'Country', 'myConfig',
+                  function($scope,   $http,   $timeout,
+                           AWSService,   LastEvalKey,   Country,   myConfig) {
 	$scope.pickCounts = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 50 ];
   $scope.currentCount = $scope.pickCounts[0];
   $scope.pickNumbers = [1,2,3,4,5,6,7,8,9,10,12,15,16,17,18];
@@ -119,6 +121,11 @@ angular.module('myApp.view1', ['ngRoute'])
 	$scope.pickTickets = function() {
 		console.log('picking tickets: ', $scope.currentCount);
 
+    $scope.timeLimitPromise = $timeout(function() {
+      console.log("Time's up, if you haven't gotten your lucky numbers yet, there is little hope you ever will");
+      return 666;
+    }, myConfig.GUItimeout);
+
 		var tickets = new Tickets($scope.currentCount /*numTickets*/,
       $scope.currentCountryJson.games[$scope.currentGameIndex].numbers /*numNumbers*/,
       $scope.currentCountryJson.games[$scope.currentGameIndex].numbersPool /*highestNumber*/,
@@ -135,6 +142,30 @@ angular.module('myApp.view1', ['ngRoute'])
     $scope.progress.dynamic = 0; // howManyNeededMax - tickets.howManyNeeded()
     $scope.progress.visible = true;
     // $scope.$apply();
+
+    var cleanupCallback = function(err, status) {
+      $scope.progress.visible = false;
+      if (!!$timeout.cancel($scope.timeLimitPromise)) {
+        console.log('Managed to cancel the timeout on time');
+      } else {
+        console.log('Tried cancelling timeout but it was already too late');
+      }
+
+      if (!err) {
+        $scope.tickets = tickets.stringify();
+        $scope.$apply();
+      } else {
+        $scope.tickets = {
+          extrasVisible: false,
+          stringified: []
+        };
+      }
+    }
+
+    $scope.timeLimitPromise.then(function(retVal) {
+      console.log('timeLimitPromise resolved to: ', retVal);
+      cleanupCallback( { err: 'timeout'}, { status: false, msg: 'timeout'} );
+    });
 
     var recursiveDbRefresh = function(recursiveDbParams) {
       if (recursiveDbParams.currentIndex < recursiveDbParams.arrayIds.length) {
@@ -234,13 +265,7 @@ angular.module('myApp.view1', ['ngRoute'])
                 arrayIds: recursionParams.dbRecordsConsumedIds,
                 arrayObjs: recursionParams.dbRecordsConsumedObjs,
                 currentIndex: 0,
-                callback: function(err, status) {
-                            if (!err) {
-                              $scope.tickets = tickets.stringify();
-                              $scope.progress.visible = false;
-                              $scope.$apply();
-                            }
-                          }
+                callback: cleanupCallback
               };
               console.log('recursionParams afterwards: ', JSON.stringify(recursionParams));
               recursiveDbRefresh(recursiveDbParams);
