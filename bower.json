@@ -1,7 +1,7 @@
 {
   "name": "lotto",
   "description": "Random Numbers Lottery Picker",
-  "version": "0.0.1",
+  "version": "0.0.4",
   "homepage": "https://github.com/doodeck/lotto.git",
   "license": "MIT",
   "private": true,
