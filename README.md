@@ -1,6 +1,6 @@
 # lotto - lottery numbers quick picker based on radioactive decay random data
 
-Cloned from: angular-seed — the seed for AngularJS apps
+Cloned from: https://github.com/angular/angular-seed — the seed for AngularJS apps
 
 ## Demo
 An instance of this application is deployed here:
