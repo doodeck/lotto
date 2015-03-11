@@ -23,4 +23,13 @@ angular.module('myApp.version.alertcontroller', [])
   $scope.closeAlert = function(index) {
     $scope.alerts.splice(index, 1);
   };
-}]);
+}])
+.directive('versionDiv', function() {
+  return {
+    template: '' +
+      '<div ng-controller="AlertCtrl">' +
+      '<alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)"> ' +
+      '  <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>&nbsp;{{alert.msg}}</alert>' +
+      '</div>'
+  };
+});
