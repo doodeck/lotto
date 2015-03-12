@@ -3,11 +3,18 @@
 Cloned from: https://github.com/angular/angular-seed — the seed for AngularJS apps
 
 ## Demo
-An instance of this application is deployed here:
+Instances of this application are deployed here:
 
+###
 https://lotto.firebaseapp.com/
 
 Only static Firebase app hosting functionality is used, the FB database is not involved.
+
+###
+https://www.googledrive.com/host/0B4LEiHlcq44_b0RLQWNzd3QwUWs
+
+using the hints from here: https://support.google.com/drive/answer/2881970?hl=en
+That Google Drive hosting is surprisingly robust!
 
 ## AWS Free Tier
 The application is eligible for AWS Free Tier:
