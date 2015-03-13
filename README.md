@@ -121,7 +121,7 @@ Now browse to the app at `http://localhost:8000/app/index.html`.
 Note that's it's vitally important to have the local clock on the client synchronized to the authoritative clock source. Hving the clock skewed by more that 5 minutes would result in error messages similar to:
 
 ```
-Error: Signature expired: 20150208T081024Z is now earlier than 20150208T081654Z (20150208T082154Z - 5 min.)
+Error: Signature expired: 20150208T081000Z is now earlier than 20150208T081654Z (20150208T082154Z - 5 min.)
 ```
 
 ## Testing
