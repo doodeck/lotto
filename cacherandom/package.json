@@ -1,6 +1,6 @@
 {
   "name": "cacherandom",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Lambda function to pre-cache random bits",
   "main": "cacherandom.js",
   "scripts": {
