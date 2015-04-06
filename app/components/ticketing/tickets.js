@@ -4,13 +4,14 @@
 
 var byteCapacity = 256; // number of distinct numbers which can be encoded on byte
 
-function Tickets(numTickets, numNumbers, highestNumber, numExtras, highestExtra) {
+function Tickets(numTickets, numNumbers, highestNumber, globallyUnique, numExtras, highestExtra) {
   this._numTickets = numTickets;
   this._numNumbers = numNumbers; // numbers per ticket
   this._highestNumber = highestNumber;
+  this._globallyUnique = globallyUnique;
   this._numExtras = !!numExtras ? numExtras : 0; // extra per ticket
   this._highestExtra = !!highestExtra ? highestExtra : 0;
-
+  console.log('globallyUnique: ', globallyUnique);
   this._tickets = [];
 
   this._digitSep = ' - ';

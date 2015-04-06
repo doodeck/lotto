@@ -72,6 +72,11 @@
       </div>
       </p>
       <p>
+        <button type="button" class="btn btn-primary btn-lg" ng-model="globallyUnique" btn-checkbox btn-checkbox-true="1" btn-checkbox-false="0">
+            <span ng-class="(globallyUnique) ? 'glyphicon glyphicon-check' : 'glyphicon glyphicon-unchecked'" aria-hidden="true"></span>&nbsp;Globally Unique
+        </button>
+      </p>
+      <p>
         <a class="btn btn-lg btn-success" ng-click="pickTickets()" role="button" ng-disabled="progress.visible">Pick Tickets</a> <!-- TODO: add timeout to reenable button in case picking failes in the middle -->
       </p>
       <p ng-show="progress.visible">

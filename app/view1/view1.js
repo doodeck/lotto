@@ -31,6 +31,7 @@ angular.module('myApp.view1', ['ngRoute'])
                           'AWSService', 'LastEvalKey', 'Country', 'myConfig',
                   function($scope,   $http,   $timeout,
                            AWSService,   LastEvalKey,   Country,   myConfig) {
+  $scope.globallyUnique = 0;
 	$scope.pickCounts = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 50 ];
   $scope.currentCount = $scope.pickCounts[0];
   $scope.pickNumbers = [1,2,3,4,5,6,7,8,9,10,12,15,16,17,18];
@@ -129,6 +130,7 @@ angular.module('myApp.view1', ['ngRoute'])
 		var tickets = new Tickets($scope.currentCount /*numTickets*/,
       $scope.currentCountryJson.games[$scope.currentGameIndex].numbers /*numNumbers*/,
       $scope.currentCountryJson.games[$scope.currentGameIndex].numbersPool /*highestNumber*/,
+      $scope.globallyUnique,
       $scope.currentCountryJson.games[$scope.currentGameIndex].extras /*numExtras*/,
       $scope.currentCountryJson.games[$scope.currentGameIndex].extrasPool /*highestExtra*/);
 
