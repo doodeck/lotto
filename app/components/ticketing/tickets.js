@@ -8,10 +8,10 @@ function Tickets(numTickets, numNumbers, highestNumber, globallyUnique, numExtra
   this._numTickets = numTickets;
   this._numNumbers = numNumbers; // numbers per ticket
   this._highestNumber = highestNumber;
-  this._globallyUnique = globallyUnique;
+  this._globalNumbersSet = globallyUnique ? {} : undefined;
   this._numExtras = !!numExtras ? numExtras : 0; // extra per ticket
   this._highestExtra = !!highestExtra ? highestExtra : 0;
-  console.log('globallyUnique: ', globallyUnique);
+  // console.log('globallyUnique: ', globallyUnique);
   this._tickets = [];
 
   this._digitSep = ' - ';
@@ -73,11 +73,16 @@ Tickets.prototype.byte2number = function(byte, highestNumber) {
 
 // feed either numbers or extras
 Tickets.prototype.feedGroup = function(numArray, numSet, numNumbers, highestNumber, params) {
+  var that = this;
   while (numArray.length < numNumbers  && params.srcIndex < params.srcArray.length) {
-    var number = this.byte2number(params.srcArray[params.srcIndex], highestNumber);
-    if (number !== undefined && !(numSet[number])) {
+    var number = that.byte2number(params.srcArray[params.srcIndex], highestNumber);
+    if (number !== undefined && !(numSet[number]) &&
+        (!that._globalNumbersSet || !(that._globalNumbersSet[number]))) {
       numArray.push(number);
       numSet[number] = true;
+      if (!!that._globalNumbersSet) {
+        that._globalNumbersSet[number] = true;
+      }
     }
     params.srcIndex++;
   }
