@@ -122,6 +122,19 @@ angular.module('myApp.view1', ['ngRoute'])
 	$scope.pickTickets = function() {
 		console.log('picking tickets: ', $scope.currentCount);
 
+    // sanity check
+    if ($scope.globallyUnique) {
+      var numbersPool = $scope.currentCountryJson.games[$scope.currentGameIndex].numbersPool;
+      var extrasPool = $scope.currentCountryJson.games[$scope.currentGameIndex].extrasPool || 0;
+      var numbers = $scope.currentCountryJson.games[$scope.currentGameIndex].numbers;
+      var extras = $scope.currentCountryJson.games[$scope.currentGameIndex].extras || 0;
+      var maxPool = numbersPool > extrasPool ? numbersPool : extrasPool;
+      if (($scope.currentCount * (numbers + extras)) > maxPool) {
+        console.error('Too many bets in Globally Unique mode rerquested');
+        return;
+      }
+    }
+
     $scope.timeLimitPromise = $timeout(function() {
       console.log("Time's up, if you haven't gotten your lucky numbers yet, there is little hope you ever will");
       return 666;
