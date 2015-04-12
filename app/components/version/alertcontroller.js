@@ -16,8 +16,8 @@ angular.module('myApp.version.alertcontroller', [])
     { type: 'success', msg: 'Lotto picker app: v' + version.toString() }
   ];
 
-  $scope.addAlert = function(type) {
-    var newAlert = {msg: 'Another alert!'};
+  $scope.addAlert = function(msg, type) {
+    var newAlert = {msg: msg};
     if (!!type) {
       newAlert.type = type;
     }
