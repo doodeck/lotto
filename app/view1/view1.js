@@ -130,7 +130,7 @@ angular.module('myApp.view1', ['ngRoute'])
       var extras = $scope.currentCountryJson.games[$scope.currentGameIndex].extras || 0;
       var maxPool = numbersPool > extrasPool ? numbersPool : extrasPool;
       if (($scope.currentCount * (numbers + extras)) > maxPool) {
-        console.error('Too many bets in Globally Unique mode rerquested');
+        console.error('Too many bets in Globally Unique mode requested');
         return;
       }
     }
