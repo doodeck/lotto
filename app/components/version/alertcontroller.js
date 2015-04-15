@@ -10,13 +10,13 @@
 
 
 angular.module('myApp.version.alertcontroller', [])
-.controller('AlertCtrl', ['$scope', 'version', function ($scope, version) {
+.controller('AlertCtrl', ['$rootScope', '$scope', 'version', function ($rootScope, $scope, version) {
   $scope.alerts = [
     // { type: 'danger', msg: 'Oh snap! Change a few things up and try submitting again.' },
     { type: 'success', msg: 'Lotto picker app: v' + version.toString() }
   ];
 
-  $scope.addAlert = function(msg, type) {
+  $rootScope.addAlert = $scope.addAlert = function(msg, type) {
     var newAlert = {msg: msg};
     if (!!type) {
       newAlert.type = type;

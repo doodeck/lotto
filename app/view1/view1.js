@@ -27,9 +27,9 @@ angular.module('myApp.view1', ['ngRoute'])
   return serviceInstance;
 })
 
-.controller('View1Ctrl', ['$scope', '$http', '$timeout',
+.controller('View1Ctrl', ['$rootScope', '$scope', '$http', '$timeout',
                           'AWSService', 'LastEvalKey', 'Country', 'myConfig',
-                  function($scope,   $http,   $timeout,
+                  function($rootScope,   $scope,   $http,   $timeout,
                            AWSService,   LastEvalKey,   Country,   myConfig) {
   $scope.globallyUnique = 0;
 	$scope.pickCounts = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 50 ];
@@ -130,7 +130,9 @@ angular.module('myApp.view1', ['ngRoute'])
       var extras = $scope.currentCountryJson.games[$scope.currentGameIndex].extras || 0;
       var maxPool = numbersPool > extrasPool ? numbersPool : extrasPool;
       if (($scope.currentCount * (numbers + extras)) > maxPool) {
-        console.error('Too many bets in Globally Unique mode requested');
+        var msg = 'Too many bets in Globally Unique mode requested';
+        console.error(msg);
+        $rootScope.addAlert(msg, 'danger');
         return;
       }
     }
