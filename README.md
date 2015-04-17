@@ -8,7 +8,7 @@ Instances of this application are deployed here:
 ###
 https://lotto.firebaseapp.com/
 
-Only static Firebase app hosting functionality is used, the FB database is not involved.
+Only static Firebase app hosting functionality is used, the FB database is not involved, that is covered by DynamoDB.
 
 ###
 https://www.googledrive.com/host/0B4LEiHlcq44_b0RLQWNzd3QwUWs
