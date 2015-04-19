@@ -21,7 +21,7 @@ angular.module('myApp.version.alertcontroller', [])
     if (!!type) {
       newAlert.type = type;
     }
-    $scope.alerts.push(newAlert);
+    $scope.alerts.splice(0, 0, newAlert);
   };
 
   $scope.closeAlert = function(index) {
