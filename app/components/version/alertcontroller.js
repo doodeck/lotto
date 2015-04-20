@@ -10,23 +10,38 @@
 
 
 angular.module('myApp.version.alertcontroller', [])
-.controller('AlertCtrl', ['$rootScope', '$scope', 'version', function ($rootScope, $scope, version) {
+.controller('AlertCtrl', ['$rootScope', '$scope', '$timeout', 'version', function ($rootScope, $scope, $timeout, version) {
   $scope.alerts = [
     // { type: 'danger', msg: 'Oh snap! Change a few things up and try submitting again.' },
     { type: 'success', msg: 'Lotto picker app: v' + version.toString() }
   ];
+  $scope.runningIndex = 0;
 
   $rootScope.addAlert = $scope.addAlert = function(msg, type) {
-    var newAlert = {msg: msg};
+    var newAlert = { index: $scope.runningIndex++, msg: msg };
     if (!!type) {
       newAlert.type = type;
     }
     $scope.alerts.splice(0, 0, newAlert);
+    $timeout(function() {
+      console.log('Timeouted: ', newAlert);
+      $scope.removeAlert(newAlert.index);
+      $scope.$apply();
+    }, 4000 /*delay*/, false /*invokeApply*/);
   };
 
   $scope.closeAlert = function(index) {
     $scope.alerts.splice(index, 1);
   };
+
+  $scope.removeAlert = function(index) {
+    for (var i = 0; i < $scope.alerts.length; i++) {
+      if (index === $scope.alerts[i].index) {
+        $scope.alerts.splice(i, 1);
+      }
+    }
+  }
+
 }])
 .directive('versionDiv', function() {
   return {
