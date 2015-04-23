@@ -17,10 +17,19 @@ angular.module('myApp.version.alertcontroller', [])
   ];
   $scope.runningIndex = 0;
 
+  // $scope.classNameList=['Box1','Box2','Box3'];
+  $scope.myGlyphicons={
+      success: "glyphicon glyphicon-info-sign",
+      danger: "glyphicon glyphicon-ban-circle",
+      warning: "glyphicon glyphicon-warning-sign"
+  };
+
   $rootScope.addAlert = $scope.addAlert = function(msg, type) {
     var newAlert = { index: $scope.runningIndex++, msg: msg };
     if (!!type) {
       newAlert.type = type;
+    } else {
+      newAlert.type = 'warning';
     }
     $scope.alerts.splice(0, 0, newAlert);
     $timeout(function() {
@@ -48,7 +57,7 @@ angular.module('myApp.version.alertcontroller', [])
     template: '' +
       '<div ng-controller="AlertCtrl">' +
       '<alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)"> ' +
-      '  <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>&nbsp;{{alert.msg}}</alert>' +
+      '  <span ng-class="myGlyphicons[alert.type]" aria-hidden="true"></span>&nbsp;{{alert.msg}}</alert>' +
       '</div>'
   };
 });
