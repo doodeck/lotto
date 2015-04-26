@@ -51,7 +51,7 @@ angular.module('myApp.view1', ['ngRoute'])
   // $scope.currentCountry = $scope.countries[1]; ... see below
   // not so quickly ..., see below $scope.pickCountry(0);
 
-  $scope.viewName = "view 1";
+  // $scope.viewName = "view 1";
   $scope.progress = {
     max: 100, // it cannot be changed dynamically
     dynamic: 0,
