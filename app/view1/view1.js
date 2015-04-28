@@ -155,12 +155,14 @@ angular.module('myApp.view1', ['ngRoute'])
     console.log('moreNeeded: ', tickets.moreNeeded());
     console.log('Tickets before: ', tickets);
 
+    $scope.abortRequested = false;
     // $scope.progress.max = howManyNeededMax;
     $scope.progress.dynamic = 0; // howManyNeededMax - tickets.howManyNeeded()
     $scope.progress.visible = true;
     // $scope.$apply();
 
     var cleanupCallback = function(err, status) {
+      $scope.abortRequested = true;
       $scope.progress.visible = false;
       if (!!$timeout.cancel($scope.timeLimitPromise)) {
         console.log('Managed to cancel the timeout on time');
@@ -256,7 +258,9 @@ angular.module('myApp.view1', ['ngRoute'])
             $scope.progress.dynamic = $scope.progress.max * Math.floor((howManyNeededMax - tickets.howManyNeeded()) / howManyNeededMax);
             // $scope.$apply();
 
-            if (tickets.moreNeeded()) {
+            if ($scope.abortRequested) {
+              console.log('Aborting picking, probably due to timeout');
+            } else if (tickets.moreNeeded()) {
               if (!data.LastEvaluatedKey) {
                 console.log('Got out of random DB records before filling the tickets');
                 // try to generate some additional records without deleting anything
