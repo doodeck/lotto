@@ -10,10 +10,7 @@ https://lotto.firebaseapp.com/
 
 Only static Firebase app hosting functionality is used, the FB database is not involved, that is covered by DynamoDB.
 
-###
-https://www.googledrive.com/host/0B4LEiHlcq44_b0RLQWNzd3QwUWs
-
-using the hints from here: https://support.google.com/drive/answer/2881970?hl=en
+Another location where you can host it for free is simply Google Drive, follow hints from here: https://support.google.com/drive/answer/2881970?hl=en
 That Google Drive hosting is surprisingly robust!
 
 ## AWS Free Tier
